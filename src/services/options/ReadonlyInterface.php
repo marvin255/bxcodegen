@@ -9,19 +9,19 @@ namespace marvin255\bxcodegen\services\options;
 interface ReadOnlyInterface
 {
     /**
-     * Возвращает параметр состояния по имени.
+     * Возвращает параметр настройки по имени.
      *
-     * @param string $name    Название параметра остояния
-     * @param mixed  $default Название параметра остояния
+     * @param string $name    Название параметра настройки
+     * @param mixed  $default Значение по умолчанию, которое вернется, если параметр с таким именем не задан
      *
      * @return mixed
      */
     public function get($name, $default = null);
 
     /**
-     * Возвращает весь массив опций, которые хранятся в объекте.
+     * Возвращает весь массив настроек, которые хранятся в объекте.
      *
-     * @return array Массив вида "название опции => значение"
+     * @return array Массив вида "название настройки => значение"
      */
     public function getAll();
 }
