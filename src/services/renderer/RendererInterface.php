@@ -18,5 +18,5 @@ interface RendererInterface
      *
      * @return string
      */
-    public function render($pathToTemplate, ReadOnlyInterface $options);
+    public function render($template, ReadOnlyInterface $options);
 }
