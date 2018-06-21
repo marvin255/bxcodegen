@@ -38,4 +38,14 @@ class Collection implements CollectionInterface
     {
         return $this->options;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function merge(CollectionInterface $collection)
+    {
+        $mergedOptions = array_merge($this->getAll(), $collection->getAll());
+
+        return new self($mergedOptions);
+    }
 }

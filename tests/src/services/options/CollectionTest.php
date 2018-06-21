@@ -43,4 +43,27 @@ class CollectionTest extends BaseCase
 
         $this->assertSame($params, $options->getAll());
     }
+
+    /**
+     * @test
+     */
+    public function testMerge()
+    {
+        $params1 = [
+            'param_name_1_1_' . mt_rand() => 'param_value_1_1_' . mt_rand(),
+            'param_name_2_' . mt_rand() => 'param_value_2_' . mt_rand(),
+        ];
+        $params2 = [
+            'param_name_1_2_' . mt_rand() => 'param_value_1_2_' . mt_rand(),
+            'param_name_2_' . mt_rand() => 'param_value_2_' . mt_rand(),
+        ];
+
+        $options1 = new Collection($params1);
+        $options2 = new Collection($params2);
+        $merged = $options1->merge($options2);
+
+        $this->assertNotSame($options1, $merged);
+        $this->assertNotSame($options2, $merged);
+        $this->assertSame(array_merge($params1, $params2), $merged->getAll());
+    }
 }

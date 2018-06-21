@@ -24,4 +24,14 @@ interface CollectionInterface
      * @return array Массив вида "название настройки => значение"
      */
     public function getAll();
+
+    /**
+     * Сливает две коллекции настроек и возвращает новый объект настроек.
+     * Опции из сливаемого объекта при совпадении имен перепишут опции текущего.
+     *
+     * @param \marvin255\bxcodegen\services\options\CollectionInterface $collection
+     *
+     * @return \marvin255\bxcodegen\services\options\CollectionInterface
+     */
+    public function merge(CollectionInterface $collection);
 }
