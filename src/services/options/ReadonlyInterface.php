@@ -17,4 +17,11 @@ interface ReadOnlyInterface
      * @return mixed
      */
     public function get($name, $default = null);
+
+    /**
+     * Возвращает весь массив опций, которые хранятся в объекте.
+     *
+     * @return array Массив вида "название опции => значение"
+     */
+    public function getAll();
 }

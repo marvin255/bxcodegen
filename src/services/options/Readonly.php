@@ -30,4 +30,12 @@ class Readonly implements ReadonlyInterface
             ? $this->options[$name]
             : $default;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAll()
+    {
+        return $this->options;
+    }
 }
