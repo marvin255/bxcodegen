@@ -2,7 +2,7 @@
 
 namespace marvin255\bxcodegen\services\renderer;
 
-use marvin255\bxcodegen\services\options\ReadOnlyInterface;
+use marvin255\bxcodegen\services\options\CollectionInterface;
 use marvin255\bxcodegen\Exception;
 use Twig_Environment;
 use Twig_Loader_Array;
@@ -30,7 +30,7 @@ class Twig implements RendererInterface
      *
      * @throws \marvin255\bxcodegen\Exception
      */
-    public function render($template, ReadOnlyInterface $options)
+    public function render($template, CollectionInterface $options)
     {
         $oldLoader = null;
         if (file_exists($template)) {

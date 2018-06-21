@@ -2,9 +2,9 @@
 
 namespace marvin255\bxcodegen\tests;
 
-use marvin255\bxcodegen\services\options\Readonly;
+use marvin255\bxcodegen\services\options\Collection;
 
-class ReadonlyTest extends BaseCase
+class CollectionTest extends BaseCase
 {
     /**
      * @test
@@ -18,7 +18,7 @@ class ReadonlyTest extends BaseCase
         $paramNameUnexisted = 'param_name_unexisted_' . mt_rand();
         $paramValueDefault = 'param_name_unexisted_' . mt_rand();
 
-        $options = new Readonly([
+        $options = new Collection([
             $paramName => $paramValue,
             $paramName2 => $paramValue2,
         ]);
@@ -39,7 +39,7 @@ class ReadonlyTest extends BaseCase
             'param_name_2_' . mt_rand() => 'param_value_2_' . mt_rand(),
         ];
 
-        $options = new Readonly($params);
+        $options = new Collection($params);
 
         $this->assertSame($params, $options->getAll());
     }

@@ -6,7 +6,7 @@ namespace marvin255\bxcodegen\services\options;
  * Объект, который хранит набор данных с настройками
  * и позволяет только читать данные, без возможности изменния.
  */
-class Readonly implements ReadonlyInterface
+class Collection implements CollectionInterface
 {
     /**
      * @var array

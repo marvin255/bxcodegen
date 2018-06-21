@@ -7,7 +7,7 @@ use Twig_Loader_Filesystem;
 use Twig_Environment;
 use marvin255\bxcodegen\Exception;
 use marvin255\bxcodegen\services\renderer\Twig;
-use marvin255\bxcodegen\services\options\ReadOnlyInterface;
+use marvin255\bxcodegen\services\options\CollectionInterface;
 
 class TwigTest extends BaseCase
 {
@@ -18,9 +18,8 @@ class TwigTest extends BaseCase
     {
         $twigLoader = new Twig_Loader_String;
         $twig = new Twig_Environment($twigLoader, ['cache' => false]);
-
         $arOptions = ['test_param' => 'test_param_value'];
-        $options = $this->getMockBuilder(ReadOnlyInterface::class)->getMock();
+        $options = $this->getMockBuilder(CollectionInterface::class)->getMock();
         $options->method('getAll')->will($this->returnValue($arOptions));
 
         $renderer = new Twig($twig);
@@ -37,10 +36,7 @@ class TwigTest extends BaseCase
     {
         $twigLoader = new Twig_Loader_Filesystem(__DIR__ . '/_fixture/');
         $twig = new Twig_Environment($twigLoader, ['cache' => false]);
-
-        $arOptions = ['test_param' => 'test_param_value'];
-        $options = $this->getMockBuilder(ReadOnlyInterface::class)->getMock();
-        $options->method('getAll')->will($this->returnValue($arOptions));
+        $options = $this->getMockBuilder(CollectionInterface::class)->getMock();
 
         $renderer = new Twig($twig);
 

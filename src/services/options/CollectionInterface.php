@@ -6,7 +6,7 @@ namespace marvin255\bxcodegen\services\options;
  * Интерфейс для объекта, который хранит набор данных с настройками
  * и позволяет только читать данные, без возможности изменния.
  */
-interface ReadOnlyInterface
+interface CollectionInterface
 {
     /**
      * Возвращает параметр настройки по имени.
