@@ -13,10 +13,10 @@ interface RendererInterface
     /**
      * Задает параметр состояния по имени.
      *
-     * @param string              $template Идентификатор шаблона
-     * @param CollectionInterface $options  Массив настроек
+     * @param string              $pathToTemplateFile Путь к файлу шаблона
+     * @param CollectionInterface $options            Массив настроек
      *
      * @return string
      */
-    public function render($template, CollectionInterface $options);
+    public function renderFile($pathToTemplateFile, CollectionInterface $options = null);
 }

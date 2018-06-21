@@ -5,42 +5,45 @@ namespace marvin255\bxcodegen\tests;
 use marvin255\bxcodegen\services\renderer\Twig;
 use marvin255\bxcodegen\services\options\CollectionInterface;
 use marvin255\bxcodegen\Exception;
-use Twig_Loader_String;
-use Twig_Loader_Filesystem;
-use Twig_Environment;
 
 class TwigTest extends BaseCase
 {
     /**
      * @test
      */
-    public function testRender()
+    public function testRenderFile()
     {
-        $twigLoader = new Twig_Loader_String;
-        $twig = new Twig_Environment($twigLoader, ['cache' => false]);
-        $arOptions = ['test_param' => 'test_param_value'];
         $options = $this->getMockBuilder(CollectionInterface::class)->getMock();
-        $options->method('getAll')->will($this->returnValue($arOptions));
+        $options->method('getAll')->will(
+            $this->returnValue(['test_param' => 'test_param_value'])
+        );
 
-        $renderer = new Twig($twig);
-        $res = $renderer->render(__DIR__ . '/_fixture/template.twig', $options);
+        $renderer = new Twig;
+        $rendered = $renderer->renderFile(__DIR__ . '/_fixture/template.twig', $options);
         $expected = file_get_contents(__DIR__ . '/_fixture/expected.txt');
 
-        $this->assertSame($expected, $res);
+        $this->assertSame($expected, $rendered);
     }
 
     /**
      * @test
      */
-    public function testRenderException()
+    public function testRenderFileTwigException()
     {
-        $twigLoader = new Twig_Loader_Filesystem(__DIR__ . '/_fixture/');
-        $twig = new Twig_Environment($twigLoader, ['cache' => false]);
-        $options = $this->getMockBuilder(CollectionInterface::class)->getMock();
-
-        $renderer = new Twig($twig);
+        $renderer = new Twig;
 
         $this->setExpectedException(Exception::class);
-        $res = $renderer->render('unexisted_template.twig', $options);
+        $res = $renderer->renderFile(__DIR__ . '/_fixture/template_exception.twig');
+    }
+
+    /**
+     * @test
+     */
+    public function testRenderFileUnexistedFileException()
+    {
+        $renderer = new Twig;
+
+        $this->setExpectedException(Exception::class);
+        $res = $renderer->renderFile(__DIR__ . '/_fixture/unexisted.twig');
     }
 }

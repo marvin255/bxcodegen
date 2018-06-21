@@ -13,16 +13,21 @@ use Twig_Loader_Array;
 class Twig implements RendererInterface
 {
     /**
+     * @var \Twig_LoaderInterface
+     */
+    protected $twigLoader;
+    /**
      * @var \Twig_Environment
      */
     protected $twig;
 
     /**
-     * @param \Twig_Environment $twig
+     * @param array $twigOptions
      */
-    public function __construct(Twig_Environment $twig)
+    public function __construct(array $twigOptions = [])
     {
-        $this->twig = $twig;
+        $this->twigLoader = new Twig_Loader_Array;
+        $this->twig = new Twig_Environment($this->twigLoader, $twigOptions);
     }
 
     /**
@@ -30,24 +35,22 @@ class Twig implements RendererInterface
      *
      * @throws \marvin255\bxcodegen\Exception
      */
-    public function render($template, CollectionInterface $options)
+    public function renderFile($pathToTemplateFile, CollectionInterface $options = null)
     {
-        $oldLoader = null;
-        if (file_exists($template)) {
-            $oldLoader = $this->twig->getLoader();
-            $this->twig->setLoader(new Twig_Loader_Array([
-                $template => file_get_contents($template),
-            ]));
+        if (!file_exists($pathToTemplateFile)) {
+            throw new Exception(
+                "Can't find template file: {$pathToTemplateFile}"
+            );
         }
+
+        $renderName = 'from_file';
+        $this->twigLoader->setTemplate($renderName, file_get_contents($pathToTemplateFile));
 
         try {
-            $return = $this->twig->load($template)->render($options->getAll());
+            $optionsArray = $options ? $options->getAll() : [];
+            $return = $this->twig->load($renderName)->render($optionsArray);
         } catch (\Exception $e) {
             throw new Exception($e->getMessage(), $e->getCode(), $e);
-        }
-
-        if ($oldLoader) {
-            $this->twig->setLoader($oldLoader);
         }
 
         return $return;
