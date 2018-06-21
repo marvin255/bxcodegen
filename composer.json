@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "psr/log": "~1.0",
         "symfony/console": "~3.4",
-        "symfony/yaml": "~3.4"
+        "symfony/yaml": "~3.4",
+        "twig/twig": "~1.35"
     },
     "autoload": {
         "psr-4": {

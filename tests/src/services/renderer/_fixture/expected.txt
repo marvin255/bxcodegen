@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Test class.
+ */
+class test_param_value
+{
+    public function test()
+    {
+    }
+}
