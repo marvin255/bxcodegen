@@ -6,6 +6,9 @@ use marvin255\bxcodegen\services\options\Readonly;
 
 class ReadonlyTest extends BaseCase
 {
+    /**
+     * @test
+     */
     public function testGet()
     {
         $paramName = 'param_name_1_' . mt_rand();
@@ -26,6 +29,9 @@ class ReadonlyTest extends BaseCase
         $this->assertSame($paramValueDefault, $options->get($paramNameUnexisted, $paramValueDefault));
     }
 
+    /**
+     * @test
+     */
     public function testGetAll()
     {
         $params = [
