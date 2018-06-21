@@ -2,12 +2,12 @@
 
 namespace marvin255\bxcodegen\tests;
 
+use marvin255\bxcodegen\services\renderer\Twig;
+use marvin255\bxcodegen\services\options\CollectionInterface;
+use marvin255\bxcodegen\Exception;
 use Twig_Loader_String;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
-use marvin255\bxcodegen\Exception;
-use marvin255\bxcodegen\services\renderer\Twig;
-use marvin255\bxcodegen\services\options\CollectionInterface;
 
 class TwigTest extends BaseCase
 {

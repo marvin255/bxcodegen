@@ -2,8 +2,8 @@
 
 namespace marvin255\bxcodegen\services\yaml;
 
-use Symfony\Component\Yaml\Yaml;
 use marvin255\bxcodegen\Exception;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  *  Объект, который парсит yaml файлы с помощью symfony yaml.
