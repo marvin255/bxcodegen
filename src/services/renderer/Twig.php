@@ -5,6 +5,7 @@ namespace marvin255\bxcodegen\services\renderer;
 use marvin255\bxcodegen\services\options\ReadOnlyInterface;
 use marvin255\bxcodegen\Exception;
 use Twig_Environment;
+use Twig_Loader_Array;
 
 /**
  * Объекта, который обрабатывает шаблоны файлов с помощью twig.
@@ -31,10 +32,22 @@ class Twig implements RendererInterface
      */
     public function render($template, ReadOnlyInterface $options)
     {
+        $oldLoader = null;
+        if (file_exists($template)) {
+            $oldLoader = $this->twig->getLoader();
+            $this->twig->setLoader(new Twig_Loader_Array([
+                $template => file_get_contents($template),
+            ]));
+        }
+
         try {
             $return = $this->twig->load($template)->render($options->getAll());
         } catch (\Exception $e) {
             throw new Exception($e->getMessage(), $e->getCode(), $e);
+        }
+
+        if ($oldLoader) {
+            $this->twig->setLoader($oldLoader);
         }
 
         return $return;

@@ -2,6 +2,7 @@
 
 namespace marvin255\bxcodegen\tests;
 
+use Twig_Loader_String;
 use Twig_Loader_Filesystem;
 use Twig_Environment;
 use marvin255\bxcodegen\Exception;
@@ -15,7 +16,7 @@ class TwigTest extends BaseCase
      */
     public function testRender()
     {
-        $twigLoader = new Twig_Loader_Filesystem(__DIR__ . '/_fixture/');
+        $twigLoader = new Twig_Loader_String;
         $twig = new Twig_Environment($twigLoader, ['cache' => false]);
 
         $arOptions = ['test_param' => 'test_param_value'];
@@ -23,7 +24,7 @@ class TwigTest extends BaseCase
         $options->method('getAll')->will($this->returnValue($arOptions));
 
         $renderer = new Twig($twig);
-        $res = $renderer->render('template.twig', $options);
+        $res = $renderer->render(__DIR__ . '/_fixture/template.twig', $options);
         $expected = file_get_contents(__DIR__ . '/_fixture/expected.txt');
 
         $this->assertSame($expected, $res);
