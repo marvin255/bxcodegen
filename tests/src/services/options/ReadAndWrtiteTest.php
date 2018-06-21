@@ -7,6 +7,9 @@ use marvin255\bxcodegen\Exception;
 
 class ReadAndWrtiteTest extends BaseCase
 {
+    /**
+     * @test
+     */
     public function testSet()
     {
         $paramName = 'param_name_1_' . mt_rand();
@@ -18,6 +21,9 @@ class ReadAndWrtiteTest extends BaseCase
         $this->assertSame($paramValue, $options->get($paramName));
     }
 
+    /**
+     * @test
+     */
     public function testSetEmptyNameException()
     {
         $options = new ReadAndWrtite([]);
@@ -26,6 +32,9 @@ class ReadAndWrtiteTest extends BaseCase
         $options->set(false, 123);
     }
 
+    /**
+     * @test
+     */
     public function testSetAll()
     {
         $paramName = 'param_name_1_' . mt_rand();
