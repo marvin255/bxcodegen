@@ -18,24 +18,36 @@ class DirectoryTest extends BaseCase
      */
     protected $info = [];
 
+    /**
+     * @test
+     */
     public function testEmptyPathToFolderException()
     {
         $this->expectException(InvalidArgumentException::class);
         $dir = new Directory('        ');
     }
 
+    /**
+     * @test
+     */
     public function testWrongPathToFolderException()
     {
         $this->expectException(InvalidArgumentException::class);
         $dir = new Directory('not_root/path');
     }
 
+    /**
+     * @test
+     */
     public function testWrongFileClassException()
     {
         $this->expectException(InvalidArgumentException::class);
         $dir = new Directory(sys_get_temp_dir(), get_class($this));
     }
 
+    /**
+     * @test
+     */
     public function testGetPathname()
     {
         $dir = new Directory($this->folderPath);
@@ -43,6 +55,9 @@ class DirectoryTest extends BaseCase
         $this->assertSame($this->info['pathname'], $dir->getPathname());
     }
 
+    /**
+     * @test
+     */
     public function testGetPath()
     {
         $dir = new Directory($this->folderPath);
@@ -50,6 +65,9 @@ class DirectoryTest extends BaseCase
         $this->assertSame($this->info['path'], $dir->getPath());
     }
 
+    /**
+     * @test
+     */
     public function testGetFolderName()
     {
         $dir = new Directory($this->folderPath);
@@ -57,6 +75,9 @@ class DirectoryTest extends BaseCase
         $this->assertSame($this->info['folderName'], $dir->getFoldername());
     }
 
+    /**
+     * @test
+     */
     public function testCreateAndDelete()
     {
         $dir = new Directory($this->folderPath);
@@ -65,11 +86,11 @@ class DirectoryTest extends BaseCase
         $this->assertSame(true, $dir->create());
         $this->assertSame(true, $dir->isExists());
 
-        $testFolderName = "{$this->folderPath}/{$this->faker()->unique()->word}";
+        $testFolderName = "{$this->folderPath}/test_folder_name_" . mt_rand();
         mkdir($testFolderName);
-        $testNestedFileName = "{$testFolderName}/{$this->faker()->unique()->word}.{$this->faker()->unique()->word}";
+        $testNestedFileName = "{$testFolderName}/test_nested_file_name_" . mt_rand() . '.test';
         file_put_contents($testNestedFileName, 'test');
-        $testFileName = "{$this->folderPath}/{$this->faker()->unique()->word}.{$this->faker()->unique()->word}";
+        $testFileName = "{$this->folderPath}/test_file_name_" . mt_rand() . '.test';
         file_put_contents($testFileName, 'test');
 
         $this->assertSame(true, $dir->delete());
@@ -77,28 +98,9 @@ class DirectoryTest extends BaseCase
         $this->assertDirectoryNotExists($this->folderPath);
     }
 
-    public function testCreateAndEmpty()
-    {
-        $dir = new Directory($this->folderPath);
-
-        $this->assertSame(false, $dir->isExists());
-        $this->assertSame(true, $dir->create());
-        $this->assertSame(true, $dir->isExists());
-
-        $testFolderName = "{$this->folderPath}/{$this->faker()->unique()->word}";
-        mkdir($testFolderName);
-        $testNestedFileName = "{$testFolderName}/{$this->faker()->unique()->word}.{$this->faker()->unique()->word}";
-        file_put_contents($testNestedFileName, 'test');
-        $testFileName = "{$this->folderPath}/{$this->faker()->unique()->word}.{$this->faker()->unique()->word}";
-        file_put_contents($testFileName, 'test');
-
-        $this->assertSame(true, $dir->deleteChildren());
-        $this->assertSame(true, $dir->isExists());
-        $this->assertDirectoryExists($this->folderPath);
-        $this->assertDirectoryNotExists($testFolderName);
-        $this->assertFileNotExists($testFileName);
-    }
-
+    /**
+     * @test
+     */
     public function testWrongChildDirName()
     {
         $dir = new Directory($this->folderPath);
@@ -107,6 +109,9 @@ class DirectoryTest extends BaseCase
         $dir->createChildDirectory('../');
     }
 
+    /**
+     * @test
+     */
     public function testWrongChildFileName()
     {
         $dir = new Directory($this->folderPath);
@@ -115,42 +120,18 @@ class DirectoryTest extends BaseCase
         $dir->createChildFile('../');
     }
 
-    public function testFindFilesByPattern()
-    {
-        $pattern = '*test.*';
-        $patternedFiles = [
-            '1_test.csv',
-            '2_test.xml',
-            '3_test.test',
-        ];
-        $unpatternedFiles = [
-            'no_pattern.pattern',
-            'test_no_pattern.xml',
-        ];
-
-        $dir = new Directory($this->folderPath);
-        $dir->create();
-        foreach (array_merge($patternedFiles, $unpatternedFiles) as $file) {
-            file_put_contents($this->folderPath . '/' . $file, $file);
-        }
-        $findedFiles = $dir->findFilesByPattern($pattern);
-
-        $this->assertCount(count($patternedFiles), $findedFiles);
-        foreach ($findedFiles as $findedFile) {
-            $this->assertContains($findedFile->getBasename(), $patternedFiles);
-            $this->assertNotContains($findedFile->getBasename(), $unpatternedFiles);
-        }
-    }
-
+    /**
+     * @test
+     */
     public function testIterator()
     {
         $dir = new Directory($this->folderPath);
-        $childDirName = $this->faker()->unique()->word;
-        $childFileName = $this->faker()->unique()->word;
+        $childDirName = "child_dir_name_" . mt_rand();
+        $childFileName = "child_file_name_" . mt_rand();
 
         $dir->create();
         mkdir("{$this->folderPath}/{$childDirName}");
-        $testNestedFileName = "{$this->folderPath}/{$childDirName}/{$this->faker()->unique()->word}";
+        $testNestedFileName = "{$this->folderPath}/{$childDirName}/test_nested_file_name_" . mt_rand();
         file_put_contents($testNestedFileName, 'test');
         $testFileName = "{$this->folderPath}/{$childFileName}";
         file_put_contents($testFileName, 'test');
@@ -168,10 +149,13 @@ class DirectoryTest extends BaseCase
         $this->assertSame($arEtalon, $arTest);
     }
 
+    /**
+     * Подготоваливает директорию для тестов и информацию о ней.
+     */
     public function setUp()
     {
-        $folderName = $this->faker()->unique()->word . mt_rand();
-        $rootPath = sys_get_temp_dir() . '/' . $this->faker()->unique()->word . mt_rand();
+        $folderName = 'folder_name_' . mt_rand();
+        $rootPath = sys_get_temp_dir() . '/root_folder_' . mt_rand();
 
         $this->folderPath = $rootPath . '/' . $folderName;
         $this->info = [
@@ -183,6 +167,9 @@ class DirectoryTest extends BaseCase
         parent::setUp();
     }
 
+    /**
+     * Удаляет тестовую директорию и все е содержимое.
+     */
     public function tearDown()
     {
         if (is_dir($this->folderPath)) {
