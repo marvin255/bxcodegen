@@ -2,6 +2,7 @@
 
 namespace marvin255\bxcodegen\tests\services\renderer;
 
+use marvin255\bxcodegen\tests\BaseCase;
 use marvin255\bxcodegen\services\renderer\Twig;
 use marvin255\bxcodegen\services\options\CollectionInterface;
 use marvin255\bxcodegen\Exception;

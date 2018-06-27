@@ -2,6 +2,7 @@
 
 namespace marvin255\bxcodegen\tests\services\yaml;
 
+use marvin255\bxcodegen\tests\BaseCase;
 use marvin255\bxcodegen\services\yaml\SymfonyYaml;
 use marvin255\bxcodegen\Exception;
 

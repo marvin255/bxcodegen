@@ -2,6 +2,7 @@
 
 namespace marvin255\bxcodegen\tests\services\options;
 
+use marvin255\bxcodegen\tests\BaseCase;
 use marvin255\bxcodegen\services\options\Collection;
 
 class CollectionTest extends BaseCase
