@@ -1,6 +1,6 @@
 <?php
 
-namespace marvin255\bxcodegen\tests;
+namespace marvin255\bxcodegen\tests\services\renderer;
 
 use marvin255\bxcodegen\services\renderer\Twig;
 use marvin255\bxcodegen\services\options\CollectionInterface;

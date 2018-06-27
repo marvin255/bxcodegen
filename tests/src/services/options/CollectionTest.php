@@ -1,6 +1,6 @@
 <?php
 
-namespace marvin255\bxcodegen\tests;
+namespace marvin255\bxcodegen\tests\services\options;
 
 use marvin255\bxcodegen\services\options\Collection;
 
