@@ -2,11 +2,11 @@
 
 namespace marvin255\bxcodegen\tests\services\filesystem;
 
-use marvin255\fias\tests\BaseTestCase;
-use marvin255\fias\service\filesystem\File;
+use marvin255\bxcodegen\tests\BaseCase;
+use marvin255\bxcodegen\services\filesystem\File;
 use InvalidArgumentException;
 
-class FileTest extends BaseTestCase
+class FileTest extends BaseCase
 {
     /**
      * @var string
@@ -17,18 +17,18 @@ class FileTest extends BaseTestCase
      */
     protected $info = [];
 
+    /**
+     * @test
+     */
     public function testEmptyAbsolutePathException()
     {
         $this->expectException(InvalidArgumentException::class);
         $file = new File('');
     }
 
-    public function testUnexistedPathException()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $file = new File(sys_get_temp_dir() . '/empty/file.txt');
-    }
-
+    /**
+     * @test
+     */
     public function testGetPathName()
     {
         $file = new File($this->tempFile);
@@ -36,6 +36,9 @@ class FileTest extends BaseTestCase
         $this->assertSame($this->tempFile, $file->getPathname());
     }
 
+    /**
+     * @test
+     */
     public function testGetPath()
     {
         $file = new File($this->tempFile);
@@ -43,6 +46,9 @@ class FileTest extends BaseTestCase
         $this->assertSame($this->info['dirname'], $file->getPath());
     }
 
+    /**
+     * @test
+     */
     public function testGetFileName()
     {
         $file = new File($this->tempFile);
@@ -50,6 +56,9 @@ class FileTest extends BaseTestCase
         $this->assertSame($this->info['filename'], $file->getFileName());
     }
 
+    /**
+     * @test
+     */
     public function testGetExtension()
     {
         $file = new File($this->tempFile);
@@ -57,6 +66,9 @@ class FileTest extends BaseTestCase
         $this->assertSame($this->info['extension'], $file->getExtension());
     }
 
+    /**
+     * @test
+     */
     public function testGetBasename()
     {
         $file = new File($this->tempFile);
@@ -64,6 +76,9 @@ class FileTest extends BaseTestCase
         $this->assertSame($this->info['basename'], $file->getBasename());
     }
 
+    /**
+     * @test
+     */
     public function testDelete()
     {
         $file = new File($this->tempFile);
@@ -73,11 +88,14 @@ class FileTest extends BaseTestCase
         $this->assertSame(false, $file->isExists());
     }
 
+    /**
+     * Создает тестовый файл и подготавливает массив с информацией о нем.
+     */
     public function setUp()
     {
         $name = sys_get_temp_dir()
-            . '/' . $this->faker()->unique()->word
-            . '.' . $this->faker()->unique()->word;
+            . '/file_name_' . mt_rand()
+            . '.ext' . mt_rand();
 
         file_put_contents($name, mt_rand());
 
@@ -92,6 +110,9 @@ class FileTest extends BaseTestCase
         parent::setUp();
     }
 
+    /**
+     * Удаляет тестовый файл.
+     */
     public function tearDown()
     {
         if (file_exists($this->tempFile)) {

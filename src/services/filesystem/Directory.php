@@ -151,7 +151,11 @@ class Directory implements DirectoryInterface
      */
     public function createChildDirectory($name)
     {
-        if (!preg_match('/^[^\/\\]+$/i', $name)) {
+        if (
+            strpos($name, '\\') !== false
+            || strpos($name, '/') !== false
+            || strpos($name, '..') !== false
+        ) {
             throw new InvalidArgumentException("Wrong folder name {$name}");
         }
 
@@ -165,7 +169,11 @@ class Directory implements DirectoryInterface
      */
     public function createChildFile($name)
     {
-        if (!preg_match('/^[^\/\\]+$/i', $name)) {
+        if (
+            strpos($name, '\\') !== false
+            || strpos($name, '/') !== false
+            || strpos($name, '..') !== false
+        ) {
             throw new InvalidArgumentException("Wrong file name {$name}");
         }
 

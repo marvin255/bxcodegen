@@ -126,8 +126,8 @@ class DirectoryTest extends BaseCase
     public function testIterator()
     {
         $dir = new Directory($this->folderPath);
-        $childDirName = "child_dir_name_" . mt_rand();
-        $childFileName = "child_file_name_" . mt_rand();
+        $childDirName = 'child_dir_name_' . mt_rand();
+        $childFileName = 'child_file_name_' . mt_rand();
 
         $dir->create();
         mkdir("{$this->folderPath}/{$childDirName}");
