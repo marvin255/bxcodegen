@@ -36,10 +36,7 @@ class Copier implements CopierInterface
      */
     public function copyFile(FileInterface $source, FileInterface $destination)
     {
-        $res = file_put_contents(
-            $destination->getPathname(),
-            file_get_contents($source->getPathname())
-        );
+        $res = copy($source->getPathname(), $destination->getPathname());
 
         if ($res === false) {
             throw new InvalidArgumentException(
