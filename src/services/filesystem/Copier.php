@@ -17,7 +17,7 @@ class Copier implements CopierInterface
         foreach ($source as $child) {
             if ($child instanceof DirectoryInterface) {
                 $destinationChild = $destination->createChildDirectory($child->getFoldername());
-                $this->copy($child, $destinationChild);
+                $this->copyDir($child, $destinationChild);
             } else {
                 $destinationChild = $destination->createChildFile($child->getBasename());
                 file_put_contents(
