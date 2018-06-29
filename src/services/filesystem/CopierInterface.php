@@ -17,4 +17,14 @@ interface CopierInterface
      * @return self
      */
     public function copyDir(DirectoryInterface $source, DirectoryInterface $destination);
+
+    /**
+     * Копирует файл.
+     *
+     * @param \marvin255\bxcodegen\services\filesystem\FileInterface $source
+     * @param \marvin255\bxcodegen\services\filesystem\FileInterface $destination
+     *
+     * @return self
+     */
+    public function copyFile(FileInterface $source, FileInterface $destination);
 }
