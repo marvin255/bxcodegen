@@ -16,5 +16,5 @@ interface CopierInterface
      *
      * @return self
      */
-    public function copy(DirectoryInterface $source, DirectoryInterface $destination);
+    public function copyDir(DirectoryInterface $source, DirectoryInterface $destination);
 }

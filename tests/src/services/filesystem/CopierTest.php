@@ -25,13 +25,13 @@ class CopierTest extends BaseCase
     /**
      * @test
      */
-    public function testCopy()
+    public function testCopyDir()
     {
         $source = new Directory($this->sourceFolderPath);
         $destination = new Directory($this->destinationFolderPath);
 
         $copier = new Copier;
-        $copier->copy($source, $destination);
+        $copier->copyDir($source, $destination);
 
         foreach ($this->sourceFolderChildren as $sourceFile => $destinationFile) {
             $this->assertFileExists($destinationFile);

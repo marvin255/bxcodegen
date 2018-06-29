@@ -10,7 +10,7 @@ class Copier implements CopierInterface
     /**
      * @inheritdoc
      */
-    public function copy(DirectoryInterface $source, DirectoryInterface $destination)
+    public function copyDir(DirectoryInterface $source, DirectoryInterface $destination)
     {
         $destination->create();
 
