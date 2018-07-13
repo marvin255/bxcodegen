@@ -5,6 +5,7 @@ namespace marvin255\bxcodegen\tests\services\filesystem;
 use marvin255\bxcodegen\tests\BaseCase;
 use marvin255\bxcodegen\services\filesystem\Copier;
 use marvin255\bxcodegen\services\filesystem\Directory;
+use marvin255\bxcodegen\services\filesystem\FileInterface;
 use InvalidArgumentException;
 
 class CopierTest extends BaseCase
@@ -31,6 +32,67 @@ class CopierTest extends BaseCase
         $destination = new Directory($this->destinationFolderPath);
 
         $copier = new Copier;
+        $copier->copyDir($source, $destination);
+
+        foreach ($this->sourceFolderChildren as $sourceFile => $destinationFile) {
+            $this->assertFileExists($destinationFile);
+            $this->assertFileEquals($sourceFile, $destinationFile);
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function testCopyDirWithTransformer()
+    {
+        $source = new Directory($this->sourceFolderPath);
+        $destination = new Directory($this->destinationFolderPath);
+        $tranformedContent = 'transformed_content_' . mt_rand();
+        $transformer = function ($from, $to) use ($tranformedContent) {
+            $return = false;
+            if ($from instanceof FileInterface && $to instanceof FileInterface) {
+                file_put_contents($to->getPathname(), $tranformedContent);
+                $return = true;
+            }
+
+            return $return;
+        };
+
+        $copier = new Copier;
+        $copier->addTransformer($transformer);
+        $copier->copyDir($source, $destination);
+
+        foreach ($this->sourceFolderChildren as $sourceFile => $destinationFile) {
+            $this->assertFileExists($destinationFile);
+            $this->assertFileNotEquals($sourceFile, $destinationFile);
+            $this->assertSame($tranformedContent, file_get_contents($destinationFile));
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function testAddTransformerException()
+    {
+        $copier = new Copier;
+
+        $this->expectException(InvalidArgumentException::class);
+        $copier->addTransformer(true);
+    }
+
+    /**
+     * @test
+     */
+    public function testClearTransformers()
+    {
+        $source = new Directory($this->sourceFolderPath);
+        $destination = new Directory($this->destinationFolderPath);
+        $transformer = function ($from, $to) {
+            throw new InvalidArgumentException('Transfromer must be cleared');
+        };
+
+        $copier = new Copier;
+        $copier->addTransformer($transformer)->clearTransformers();
         $copier->copyDir($source, $destination);
 
         foreach ($this->sourceFolderChildren as $sourceFile => $destinationFile) {
