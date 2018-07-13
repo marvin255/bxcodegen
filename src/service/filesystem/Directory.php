@@ -1,6 +1,6 @@
 <?php
 
-namespace marvin255\bxcodegen\services\filesystem;
+namespace marvin255\bxcodegen\service\filesystem;
 
 use CallbackFilterIterator;
 use DirectoryIterator;
@@ -40,7 +40,7 @@ class Directory implements DirectoryInterface
      * @param $absolutePath
      * @param $fileClass
      */
-    public function __construct($absolutePath, $fileClass = '\\marvin255\\bxcodegen\\services\\filesystem\\File')
+    public function __construct($absolutePath, $fileClass = '\\marvin255\\bxcodegen\\service\\filesystem\\File')
     {
         if (trim($absolutePath, ' \t\n\r\0\x0B\\/') === '') {
             throw new InvalidArgumentException(

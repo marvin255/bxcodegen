@@ -1,6 +1,6 @@
 <?php
 
-namespace marvin255\bxcodegen\services\options;
+namespace marvin255\bxcodegen\service\options;
 
 /**
  * Интерфейс для объекта, который хранит набор данных с настройками
@@ -29,9 +29,9 @@ interface CollectionInterface
      * Сливает две коллекции настроек и возвращает новый объект настроек.
      * Опции из сливаемого объекта при совпадении имен перепишут опции текущего.
      *
-     * @param \marvin255\bxcodegen\services\options\CollectionInterface $collection
+     * @param \marvin255\bxcodegen\service\options\CollectionInterface $collection
      *
-     * @return \marvin255\bxcodegen\services\options\CollectionInterface
+     * @return \marvin255\bxcodegen\service\options\CollectionInterface
      */
     public function merge(CollectionInterface $collection);
 }

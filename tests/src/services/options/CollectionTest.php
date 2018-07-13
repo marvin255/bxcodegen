@@ -1,9 +1,9 @@
 <?php
 
-namespace marvin255\bxcodegen\tests\services\options;
+namespace marvin255\bxcodegen\tests\service\options;
 
 use marvin255\bxcodegen\tests\BaseCase;
-use marvin255\bxcodegen\services\options\Collection;
+use marvin255\bxcodegen\service\options\Collection;
 
 class CollectionTest extends BaseCase
 {

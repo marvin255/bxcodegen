@@ -1,10 +1,10 @@
 <?php
 
-namespace marvin255\bxcodegen\tests\services\renderer;
+namespace marvin255\bxcodegen\tests\service\renderer;
 
 use marvin255\bxcodegen\tests\BaseCase;
-use marvin255\bxcodegen\services\renderer\Twig;
-use marvin255\bxcodegen\services\options\CollectionInterface;
+use marvin255\bxcodegen\service\renderer\Twig;
+use marvin255\bxcodegen\service\options\CollectionInterface;
 use marvin255\bxcodegen\Exception;
 
 class TwigTest extends BaseCase

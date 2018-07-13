@@ -1,6 +1,6 @@
 <?php
 
-namespace marvin255\bxcodegen\services\filesystem;
+namespace marvin255\bxcodegen\service\filesystem;
 
 /**
  * Интерфейс для объекта, который инкапсулирует обращение к файлу в локальной

@@ -1,6 +1,6 @@
 <?php
 
-namespace marvin255\bxcodegen\services\yaml;
+namespace marvin255\bxcodegen\service\yaml;
 
 /**
  * Интерфейс для объекта, который парсит yaml файлы.

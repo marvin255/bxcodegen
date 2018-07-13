@@ -1,6 +1,6 @@
 <?php
 
-namespace marvin255\bxcodegen\services\options;
+namespace marvin255\bxcodegen\service\options;
 
 /**
  * Объект, который хранит набор данных с настройками

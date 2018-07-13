@@ -1,8 +1,8 @@
 <?php
 
-namespace marvin255\bxcodegen\services\renderer;
+namespace marvin255\bxcodegen\service\renderer;
 
-use marvin255\bxcodegen\services\options\CollectionInterface;
+use marvin255\bxcodegen\service\options\CollectionInterface;
 
 /**
  * Интерфейс для объекта, который обрабатывает шаблоны файлов перед созданием

@@ -1,6 +1,6 @@
 <?php
 
-namespace marvin255\bxcodegen\services\filesystem;
+namespace marvin255\bxcodegen\service\filesystem;
 
 /**
  * Интерфейс для объекта, который рекурсивно копирует содержимое одной папки
@@ -11,8 +11,8 @@ interface CopierInterface
     /**
      * Рекурсивно копирует содержимое одной папки в другую.
      *
-     * @param \marvin255\bxcodegen\services\filesystem\DirectoryInterface $source
-     * @param \marvin255\bxcodegen\services\filesystem\DirectoryInterface $destination
+     * @param \marvin255\bxcodegen\service\filesystem\DirectoryInterface $source
+     * @param \marvin255\bxcodegen\service\filesystem\DirectoryInterface $destination
      *
      * @return self
      */
@@ -21,8 +21,8 @@ interface CopierInterface
     /**
      * Копирует файл.
      *
-     * @param \marvin255\bxcodegen\services\filesystem\FileInterface $source
-     * @param \marvin255\bxcodegen\services\filesystem\FileInterface $destination
+     * @param \marvin255\bxcodegen\service\filesystem\FileInterface $source
+     * @param \marvin255\bxcodegen\service\filesystem\FileInterface $destination
      *
      * @return self
      */

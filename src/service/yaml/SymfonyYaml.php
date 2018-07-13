@@ -1,6 +1,6 @@
 <?php
 
-namespace marvin255\bxcodegen\services\yaml;
+namespace marvin255\bxcodegen\service\yaml;
 
 use marvin255\bxcodegen\Exception;
 use Symfony\Component\Yaml\Yaml;

@@ -1,10 +1,10 @@
 <?php
 
-namespace marvin255\bxcodegen\tests\services\filesystem;
+namespace marvin255\bxcodegen\tests\service\filesystem;
 
 use marvin255\bxcodegen\tests\BaseCase;
-use marvin255\bxcodegen\services\filesystem\Directory;
-use marvin255\bxcodegen\services\filesystem\FileInterface;
+use marvin255\bxcodegen\service\filesystem\Directory;
+use marvin255\bxcodegen\service\filesystem\FileInterface;
 use InvalidArgumentException;
 
 class DirectoryTest extends BaseCase

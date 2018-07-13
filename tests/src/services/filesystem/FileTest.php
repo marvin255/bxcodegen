@@ -1,9 +1,9 @@
 <?php
 
-namespace marvin255\bxcodegen\tests\services\filesystem;
+namespace marvin255\bxcodegen\tests\service\filesystem;
 
 use marvin255\bxcodegen\tests\BaseCase;
-use marvin255\bxcodegen\services\filesystem\File;
+use marvin255\bxcodegen\service\filesystem\File;
 use InvalidArgumentException;
 
 class FileTest extends BaseCase

@@ -1,9 +1,9 @@
 <?php
 
-namespace marvin255\bxcodegen\tests\services\yaml;
+namespace marvin255\bxcodegen\tests\service\yaml;
 
 use marvin255\bxcodegen\tests\BaseCase;
-use marvin255\bxcodegen\services\yaml\SymfonyYaml;
+use marvin255\bxcodegen\service\yaml\SymfonyYaml;
 use marvin255\bxcodegen\Exception;
 
 class SymfonyYamlTest extends BaseCase
