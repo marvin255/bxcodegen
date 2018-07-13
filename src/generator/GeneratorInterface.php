@@ -13,9 +13,9 @@ interface GeneratorInterface
     /**
      * Создает единицу кода, на основании настроек из параметра.
      *
-     * @param \marvin255\bxcodegen\service\options\CollectionInterface $collection
+     * @param \marvin255\bxcodegen\service\options\CollectionInterface $operationOptions
      *
      * @return bool
      */
-    public function generate(CollectionInterface $collection);
+    public function generate(CollectionInterface $operationOptions);
 }
