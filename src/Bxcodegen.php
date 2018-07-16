@@ -60,7 +60,7 @@ class Bxcodegen
 
         $generator->generate(
             $defaultOptions->merge($operationOptions),
-            $this->locator
+            $this->initLocator()
         );
     }
 
