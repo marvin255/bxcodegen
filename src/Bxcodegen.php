@@ -41,25 +41,28 @@ class Bxcodegen
      * @param string                                                   $generatorName
      * @param \marvin255\bxcodegen\service\options\CollectionInterface $options
      *
+     * @return mixed
+     *
      * @throws \InvalidArgumentException
      */
     public function run($generatorName, CollectionInterface $operationOptions)
     {
         $generators = $this->options->get('generators');
-        if (empty($generators[$generatorName]) || !is_array($generators[$generatorName])) {
+
+        if (!empty($generators[$generatorName]) && is_array($generators[$generatorName])) {
+            $arGenerator = $generators[$generatorName];
+        } else {
             throw new InvalidArgumentException(
                 "Can't find {$generatorName} generator"
             );
         }
 
-        $options = $generators[$generatorName];
-        $class = array_shift($options);
-
-        $defaultOptions = new Collection($options);
+        $class = array_shift($arGenerator);
+        $defaultGeneratorOptions = new Collection($arGenerator);
         $generator = new $class;
 
-        $generator->generate(
-            $defaultOptions->merge($operationOptions),
+        return $generator->generate(
+            $defaultGeneratorOptions->merge($operationOptions),
             $this->initLocator()
         );
     }
@@ -76,13 +79,26 @@ class Bxcodegen
         if (is_array($services) && !$this->isServicesInited) {
             $this->isServicesInited = true;
             foreach ($services as $serviceDescription) {
-                $class = array_shift($serviceDescription);
-                $reflect = new ReflectionClass($class);
-                $instance = $reflect->newInstanceArgs($serviceDescription);
+                $instance = $this->instantiateFromArray($serviceDescription);
                 $this->locator->register($instance);
             }
         }
 
         return $this->locator;
+    }
+
+    /**
+     * Инициирует инстанс по описанию из массива настроек.
+     *
+     * @param array $opions
+     *
+     * @return mixed
+     */
+    protected function instantiateFromArray(array $opions)
+    {
+        $class = array_shift($opions);
+        $reflect = new ReflectionClass($class);
+
+        return $reflect->newInstanceArgs($opions);
     }
 }
