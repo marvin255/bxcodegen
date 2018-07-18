@@ -52,7 +52,6 @@ class Factory
         ];
         $optionsFromYaml = (new SymfonyYaml)->parseFromFile($pathToYaml);
         $options = new Collection(array_merge_recursive($defaultOption, $optionsFromYaml));
-
         $locator = new ServiceLocator;
 
         return new Bxcodegen($options, $locator);
