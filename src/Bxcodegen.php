@@ -49,7 +49,7 @@ class Bxcodegen
     {
         $generators = $this->options->get('generators');
 
-        if (!empty($generators[$generatorName]) && is_array($generators[$generatorName])) {
+        if (!empty($generators[$generatorName]['class'])) {
             $arGenerator = $generators[$generatorName];
         } else {
             throw new InvalidArgumentException(
@@ -57,7 +57,8 @@ class Bxcodegen
             );
         }
 
-        $class = array_shift($arGenerator);
+        $class = $arGenerator['class'];
+        unset($arGenerator['class']);
         $defaultGeneratorOptions = new Collection($arGenerator);
         $generator = new $class;
 

@@ -24,7 +24,7 @@ class BxcodegenTest extends BaseCase
         $arOptions = [
             'generators' => [
                 $generatorName => [
-                    MockGenerator::class,
+                    'class' => MockGenerator::class,
                     'option_from_construct' => $optionFromConstruct,
                     'option_to_return' => 'option_to_return_value',
                 ],
