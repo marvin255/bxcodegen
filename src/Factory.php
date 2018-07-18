@@ -25,13 +25,14 @@ class Factory
      */
     public static function createCodegenFromYaml($pathToYaml)
     {
-        if (!file_exists($pathToYaml)) {
+        $realPathToYaml = realpath($pathToYaml);
+        if (!file_exists($realPathToYaml)) {
             throw new InvalidArgumentException(
                 "Can't find yaml with settings: {$pathToYaml}"
             );
         }
 
-        $rootFolder = pathinfo($pathToYaml, PATHINFO_DIRNAME);
+        $rootFolder = pathinfo($realPathToYaml, PATHINFO_DIRNAME);
         $defaultOption = [
             'services' => [
                 'pathManager' => [
@@ -50,7 +51,7 @@ class Factory
                 ],
             ],
         ];
-        $optionsFromYaml = (new SymfonyYaml)->parseFromFile($pathToYaml);
+        $optionsFromYaml = (new SymfonyYaml)->parseFromFile($realPathToYaml);
         $options = new Collection(array_merge_recursive($defaultOption, $optionsFromYaml));
         $locator = new ServiceLocator;
 
