@@ -8,7 +8,7 @@ use InvalidArgumentException;
  * Объект, который позволяет получить полный путь к какой-либо папке
  * внутри проекта или получить путь, который задан псевдонимом папки.
  */
-class PathManager
+class PathManager implements PathManagerInterface
 {
     /**
      * Абсолютный путь до рабочей папкипроекта. При определении абсолютного
@@ -50,12 +50,7 @@ class PathManager
     }
 
     /**
-     * Задает псевдонимы для папок.
-     *
-     * @param string $alias
-     * @param string $path
-     *
-     * @return self
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException
      */
@@ -74,11 +69,7 @@ class PathManager
     }
 
     /**
-     * Возвращает абсолютный путь до папки или файла с учетом всех псевдонимов.
-     *
-     * @param string $path
-     *
-     * @return string
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException
      */
