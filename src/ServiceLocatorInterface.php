@@ -9,11 +9,25 @@ namespace marvin255\bxcodegen;
 interface ServiceLocatorInterface
 {
     /**
-     * Резолвит объект сервиса по указанному в параметре классу или интерфейсу.
+     * Пробует найти сервис по названию, если такой зарегистрирован.
      *
-     * @param string $service
+     * @param string $alias
      *
      * @return mixed
+     *
+     * @throws \InvalidArgumentException
      */
-    public function resolve($service);
+    public function get($alias);
+
+    /**
+     * Регистрирует сервис по указаным названием.
+     *
+     * @param string $alias
+     * @param mixed  $service
+     *
+     * @return self
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function set($alias, $service);
 }

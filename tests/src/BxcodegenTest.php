@@ -30,7 +30,7 @@ class BxcodegenTest extends BaseCase
                 ],
             ],
             'services' => [
-                [
+                'test' => [
                     MockService::class,
                     $serviceOption,
                 ],
@@ -48,7 +48,7 @@ class BxcodegenTest extends BaseCase
 
         $this->assertSame($optionToReturn, $resReturn);
         $this->assertSame($optionFromConstruct, $resCostruct);
-        $this->assertSame($serviceOption, $locator->resolve(MockService::class)->getOption());
+        $this->assertSame($serviceOption, $locator->get('test')->getOption());
     }
 
     /**

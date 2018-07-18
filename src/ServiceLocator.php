@@ -2,6 +2,8 @@
 
 namespace marvin255\bxcodegen;
 
+use InvalidArgumentException;
+
 /**
  * Объект, который позволяет передавать объекты сервисов
  * между задачами, например, объекты pdo для связи с базой данных.
@@ -16,31 +18,30 @@ class ServiceLocator implements ServiceLocatorInterface
     /**
      * @inheritdoc
      */
-    public function resolve($service)
+    public function get($alias)
     {
-        $serviceObject = null;
-
-        foreach ($this->services as $tryingService) {
-            $tryingClass = get_class($tryingService);
-            if ($tryingClass === $service || is_subclass_of($tryingService, $service)) {
-                $serviceObject = $tryingService;
-                break;
-            }
+        if (empty($this->services[$alias])) {
+            throw new InvalidArgumentException(
+                "Can't find service {$alias}"
+            );
         }
 
-        return $serviceObject;
+        return $this->services[$alias];
     }
 
     /**
-     * Регистрирует новый сервис.
-     *
-     * @param mixed $service
-     *
-     * @return self
+     * @inheritdoc
      */
-    public function register($service)
+    public function set($alias, $service)
     {
-        $this->services[] = $service;
+        if (!preg_match('/^[a-z0-9_]{3,}$/', $alias)) {
+            throw new InvalidArgumentException(
+                'Alias name must consist of more than 2 symbols of latin, digits and _.'
+                . " Got: {$alias}"
+            );
+        }
+
+        $this->services[$alias] = $service;
 
         return $this;
     }

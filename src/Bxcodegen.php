@@ -79,9 +79,9 @@ class Bxcodegen
 
         if (is_array($services) && !$this->isServicesInited) {
             $this->isServicesInited = true;
-            foreach ($services as $serviceDescription) {
+            foreach ($services as $serviceName => $serviceDescription) {
                 $instance = $this->instantiateFromArray($serviceDescription);
-                $this->locator->register($instance);
+                $this->locator->set($serviceName, $instance);
             }
         }
 
@@ -91,15 +91,15 @@ class Bxcodegen
     /**
      * Инициирует инстанс по описанию из массива настроек.
      *
-     * @param array $opions
+     * @param array $options
      *
      * @return mixed
      */
-    protected function instantiateFromArray(array $opions)
+    protected function instantiateFromArray(array $options)
     {
-        $class = array_shift($opions);
+        $class = array_shift($options);
         $reflect = new ReflectionClass($class);
 
-        return $reflect->newInstanceArgs($opions);
+        return $reflect->newInstanceArgs($options);
     }
 }
