@@ -2,6 +2,7 @@
 
 namespace marvin255\bxcodegen\cli;
 
+use marvin255\bxcodegen\Bxcodegen;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,6 +13,25 @@ use Symfony\Component\Console\Command\Command;
  */
 class GeneratorCommand extends Command
 {
+    /**
+     * @var \marvin255\bxcodegen\Bxcodegen
+     */
+    protected $bxcodegen;
+
+    /**
+     * Задает объект, который управляет генераторами кода.
+     *
+     * @param \marvin255\bxcodegen\Bxcodegen $bxcodegen
+     *
+     * @return self
+     */
+    public function setBxcodegen(Bxcodegen $bxcodegen)
+    {
+        $this->bxcodegen = $bxcodegen;
+
+        return $this;
+    }
+
     /**
      * @inheritdoc
      */

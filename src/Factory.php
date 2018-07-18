@@ -7,6 +7,8 @@ use marvin255\bxcodegen\service\yaml\SymfonyYaml;
 use marvin255\bxcodegen\service\path\PathManager;
 use marvin255\bxcodegen\service\renderer\Twig;
 use marvin255\bxcodegen\service\filesystem\Copier;
+use marvin255\bxcodegen\cli\GeneratorCommand;
+use Symfony\Component\Console\Application;
 use InvalidArgumentException;
 
 /**
@@ -56,5 +58,23 @@ class Factory
         $locator = new ServiceLocator;
 
         return new Bxcodegen($options, $locator);
+    }
+
+    /**
+     * Регистрирует консольные команды в объекте приложения Symfony console,
+     * из настроек, указанных в yaml файле.
+     *
+     * @param \Symfony\Component\Console\Application $app
+     * @param string                                 $pathToYaml
+     *
+     * @return \Symfony\Component\Console\Application
+     */
+    public static function registerCommands(Application $app, $pathToYaml)
+    {
+        $bxcodegen = self::createCodegenFromYaml($pathToYaml);
+
+        $app->add((new GeneratorCommand)->setBxcodegen($bxcodegen));
+
+        return $app;
     }
 }
