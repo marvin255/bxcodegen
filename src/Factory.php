@@ -33,7 +33,7 @@ class Factory
         }
 
         $rootFolder = pathinfo($realPathToYaml, PATHINFO_DIRNAME);
-        $defaultOption = [
+        $defaultOptions = [
             'services' => [
                 'pathManager' => [
                     PathManager::class,
@@ -51,8 +51,8 @@ class Factory
                 ],
             ],
         ];
-        $optionsFromYaml = (new SymfonyYaml)->parseFromFile($realPathToYaml);
-        $options = new Collection(array_merge_recursive($defaultOption, $optionsFromYaml));
+        $yamlOptions = (new SymfonyYaml)->parseFromFile($realPathToYaml);
+        $options = new Collection(array_merge_recursive($defaultOptions, $yamlOptions));
         $locator = new ServiceLocator;
 
         return new Bxcodegen($options, $locator);
