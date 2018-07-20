@@ -57,18 +57,10 @@ class Twig implements RendererInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @throws \InvalidArgumentException
+     * @inheritdoc
      */
     public function renderTemplateToFile($pathToTemplateFile, $pathToDestFile, array $options = [])
     {
-        if (!file_exists($pathToDestFile)) {
-            throw new InvalidArgumentException(
-                "Can't find destination file: {$pathToDestFile}"
-            );
-        }
-
         $renderedString = $this->renderTemplate($pathToTemplateFile, $options);
         file_put_contents($pathToDestFile, $renderedString);
     }
