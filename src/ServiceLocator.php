@@ -34,7 +34,7 @@ class ServiceLocator implements ServiceLocatorInterface
      */
     public function set($alias, $service)
     {
-        if (!preg_match('/^[a-z0-9_]{3,}$/', $alias)) {
+        if (!preg_match('/^[a-zA-Z0-9_]{3,}$/', $alias)) {
             throw new InvalidArgumentException(
                 'Alias name must consist of more than 2 symbols of latin, digits and _.'
                 . " Got: {$alias}"

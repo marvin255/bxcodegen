@@ -96,8 +96,8 @@ class Component implements GeneratorInterface
                         $templateData
                     );
                     file_put_contents(
-                        $fileContent,
-                        $to->getPath() . '/' . $to->getFilename() . '.php'
+                        $to->getPath() . '/' . $to->getFilename() . '.php',
+                        $fileContent
                     );
                 }
 
