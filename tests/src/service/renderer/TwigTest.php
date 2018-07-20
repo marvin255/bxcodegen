@@ -4,7 +4,6 @@ namespace marvin255\bxcodegen\tests\service\renderer;
 
 use marvin255\bxcodegen\tests\BaseCase;
 use marvin255\bxcodegen\service\renderer\Twig;
-use marvin255\bxcodegen\service\options\CollectionInterface;
 use marvin255\bxcodegen\Exception;
 
 class TwigTest extends BaseCase
@@ -14,10 +13,7 @@ class TwigTest extends BaseCase
      */
     public function testRenderFile()
     {
-        $options = $this->getMockBuilder(CollectionInterface::class)->getMock();
-        $options->method('getAll')->will(
-            $this->returnValue(['test_param' => 'test_param_value'])
-        );
+        $options = ['test_param' => 'test_param_value'];
 
         $renderer = new Twig;
         $rendered = $renderer->renderFile(__DIR__ . '/_fixture/template.twig', $options);

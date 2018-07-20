@@ -2,7 +2,6 @@
 
 namespace marvin255\bxcodegen\service\renderer;
 
-use marvin255\bxcodegen\service\options\CollectionInterface;
 use marvin255\bxcodegen\Exception;
 use Twig_Environment;
 use Twig_Loader_Array;
@@ -35,7 +34,7 @@ class Twig implements RendererInterface
      *
      * @throws \marvin255\bxcodegen\Exception
      */
-    public function renderFile($pathToTemplateFile, CollectionInterface $options = null)
+    public function renderFile($pathToTemplateFile, array $options = [])
     {
         if (!file_exists($pathToTemplateFile)) {
             throw new Exception(
@@ -47,8 +46,7 @@ class Twig implements RendererInterface
         $this->twigLoader->setTemplate($renderName, file_get_contents($pathToTemplateFile));
 
         try {
-            $optionsArray = $options ? $options->getAll() : [];
-            $return = $this->twig->load($renderName)->render($optionsArray);
+            $return = $this->twig->load($renderName)->render($options);
         } catch (\Exception $e) {
             throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
