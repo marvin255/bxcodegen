@@ -12,7 +12,8 @@ use marvin255\bxcodegen\service\options\Collection;
 use Exception;
 
 /**
- * Консольная команда для Symfony console, которая создает новую миграцию.
+ * Консольная команда для Symfony console, которая запускает указанный
+ * кастомный генератор.
  */
 class GeneratorCommand extends Command
 {
@@ -60,7 +61,7 @@ class GeneratorCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $generatorName = $input->getArgument('name');
+        $generatorName = $this->collectGeneratorNameFromInput($input);
         $generatorOptions = $this->collectOptionsFromInput($input);
 
         $output->writeln("<info>Starting {$generatorName} generator</info>");
@@ -74,6 +75,18 @@ class GeneratorCommand extends Command
                 "<error>{$generatorName} generator failed: {$msg}</error>"
             );
         }
+    }
+
+    /**
+     * Возвращает имя генератора, который нужно использовать для команды.
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     *
+     * @return string
+     */
+    protected function collectGeneratorNameFromInput(InputInterface $input)
+    {
+        return $input->getArgument('name');
     }
 
     /**

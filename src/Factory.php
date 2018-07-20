@@ -8,6 +8,7 @@ use marvin255\bxcodegen\service\path\PathManager;
 use marvin255\bxcodegen\service\renderer\Twig;
 use marvin255\bxcodegen\service\filesystem\Copier;
 use marvin255\bxcodegen\cli\GeneratorCommand;
+use marvin255\bxcodegen\cli\ComponentCommand;
 use Symfony\Component\Console\Application;
 use InvalidArgumentException;
 
@@ -30,6 +31,7 @@ class Factory
         $bxcodegen = self::createCodegenFromYaml($pathToYaml);
 
         $app->add((new GeneratorCommand)->setBxcodegen($bxcodegen));
+        $app->add((new ComponentCommand)->setBxcodegen($bxcodegen));
 
         return $app;
     }
