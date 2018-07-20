@@ -1,13 +1,13 @@
 <?php
 
-namespace {{ namespace }};
+namespace {{ php_namespace }};
 
 use CBitrixComponent;
 
 /**
- * Класс для компонента: {{ title }}.
+ * Класс для компонента: {{ readable_title }}.
  */
-class {{ class }} extends CBitrixComponent
+class {{ php_class }} extends CBitrixComponent
 {
     /**
      * @inheritdoc

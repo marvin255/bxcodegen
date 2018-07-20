@@ -27,4 +27,20 @@ interface CopierInterface
      * @return self
      */
     public function copyFile(FileInterface $source, FileInterface $destination);
+
+    /**
+     * Добавляет коллбэк для трансформации данных при копировании.
+     *
+     * @param callable $transformer
+     *
+     * @return self
+     */
+    public function addTransformer($transformer);
+
+    /**
+     * Очищает список коллбэков для трансформации данных при копировании.
+     *
+     * @return self
+     */
+    public function clearTransformers();
 }

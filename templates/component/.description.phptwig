@@ -7,12 +7,12 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 }
 
 $arComponentDescription = [
-    'NAME' => Loc::getMessage('{{ namespace|upper }}_{{ name|upper }}_NAME'),
-    'DESCRIPTION' => Loc::getMessage('{{ namespace|upper }}_{{ name|upper }}_DESCRIPTION'),
+    'NAME' => Loc::getMessage('{{ component_namespace|upper }}_{{ component_name|replace({'.':''})|upper }}_NAME'),
+    'DESCRIPTION' => Loc::getMessage('{{ component_namespace|upper }}_{{ component_name|replace({'.':''})|upper }}_DESCRIPTION'),
     'SORT' => 320,
     'COMPLEX' => 'N',
     'PATH' => [
-        'ID' => '{{ namespace }}',
+        'ID' => '{{ component_namespace }}',
         'NAME' => Loc::getMessage('MAG'),
         'CHILD' => [
             'ID' => 'content',
