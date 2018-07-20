@@ -25,5 +25,5 @@ interface RendererInterface
      * @param string $pathToDestFile     Путь к файлу, в который будет записан полученная строка
      * @param array  $options            Массив настроек
      */
-    public function renderTemplateToFile($pathToTemplateFile, array $options = []);
+    public function renderTemplateToFile($pathToTemplateFile, $pathToDestFile, array $options = []);
 }

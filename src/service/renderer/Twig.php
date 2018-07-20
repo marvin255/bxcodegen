@@ -3,6 +3,7 @@
 namespace marvin255\bxcodegen\service\renderer;
 
 use marvin255\bxcodegen\Exception;
+use InvalidArgumentException;
 use Twig_Environment;
 use Twig_Loader_Array;
 
@@ -32,12 +33,13 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      *
+     * @throws \InvalidArgumentException
      * @throws \marvin255\bxcodegen\Exception
      */
     public function renderTemplate($pathToTemplateFile, array $options = [])
     {
         if (!file_exists($pathToTemplateFile)) {
-            throw new Exception(
+            throw new InvalidArgumentException(
                 "Can't find template file: {$pathToTemplateFile}"
             );
         }
@@ -57,9 +59,17 @@ class Twig implements RendererInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \marvin255\bxcodegen\Exception
+     * @throws \InvalidArgumentException
      */
-    public function renderTemplateToFile($pathToTemplateFile, array $options = [])
+    public function renderTemplateToFile($pathToTemplateFile, $pathToDestFile, array $options = [])
     {
+        if (!file_exists($pathToDestFile)) {
+            throw new InvalidArgumentException(
+                "Can't find destination file: {$pathToDestFile}"
+            );
+        }
+
+        $renderedString = $this->renderTemplate($pathToTemplateFile, $options);
+        file_put_contents($pathToDestFile, $renderedString);
     }
 }

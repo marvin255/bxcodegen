@@ -5,6 +5,7 @@ namespace marvin255\bxcodegen\tests\service\renderer;
 use marvin255\bxcodegen\tests\BaseCase;
 use marvin255\bxcodegen\service\renderer\Twig;
 use marvin255\bxcodegen\Exception;
+use InvalidArgumentException;
 
 class TwigTest extends BaseCase
 {
@@ -40,7 +41,7 @@ class TwigTest extends BaseCase
     {
         $renderer = new Twig;
 
-        $this->setExpectedException(Exception::class);
+        $this->setExpectedException(InvalidArgumentException::class);
         $res = $renderer->renderTemplate(__DIR__ . '/_fixture/unexisted.twig');
     }
 }
