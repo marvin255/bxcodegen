@@ -1,0 +1,31 @@
+<?php
+
+namespace {{ namespace }};
+
+use CBitrixComponent;
+
+/**
+ * Класс для компонента: {{ title }}.
+ */
+class {{ class }} extends CBitrixComponent
+{
+    /**
+     * @inheritdoc
+     */
+    public function onPrepareComponentParams($p)
+    {
+        //prepare component params
+
+        return parent::onPrepareComponentParams($p);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function executeComponent()
+    {
+        //run component logic
+
+        return $this->arResult;
+    }
+}

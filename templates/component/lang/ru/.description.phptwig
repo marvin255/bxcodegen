@@ -1,0 +1,9 @@
+<?php
+
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
+
+$MESS['{{ namespace|upper }}_{{ name|upper }}_NAME'] = '{{ title }}';
+$MESS['{{ namespace|upper }}_{{ name|upper }}_DESCRIPTION'] = '{{ title }}';
+$MESS['COMPONENT_DESCRIPTION_CONTENT'] = 'Контент';

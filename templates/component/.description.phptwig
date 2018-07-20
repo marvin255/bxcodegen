@@ -1,0 +1,22 @@
+<?php
+
+use Bitrix\Main\Localization\Loc;
+
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
+
+$arComponentDescription = [
+    'NAME' => Loc::getMessage('{{ namespace|upper }}_{{ name|upper }}_NAME'),
+    'DESCRIPTION' => Loc::getMessage('{{ namespace|upper }}_{{ name|upper }}_DESCRIPTION'),
+    'SORT' => 320,
+    'COMPLEX' => 'N',
+    'PATH' => [
+        'ID' => '{{ namespace }}',
+        'NAME' => Loc::getMessage('MAG'),
+        'CHILD' => [
+            'ID' => 'content',
+            'NAME' => Loc::getMessage('COMPONENT_DESCRIPTION_CONTENT')
+        ],
+    ],
+];
