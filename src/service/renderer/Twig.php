@@ -34,7 +34,7 @@ class Twig implements RendererInterface
      *
      * @throws \marvin255\bxcodegen\Exception
      */
-    public function renderFile($pathToTemplateFile, array $options = [])
+    public function renderTemplate($pathToTemplateFile, array $options = [])
     {
         if (!file_exists($pathToTemplateFile)) {
             throw new Exception(
@@ -52,5 +52,14 @@ class Twig implements RendererInterface
         }
 
         return $return;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \marvin255\bxcodegen\Exception
+     */
+    public function renderTemplateToFile($pathToTemplateFile, array $options = [])
+    {
     }
 }

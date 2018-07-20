@@ -91,7 +91,7 @@ class Component implements GeneratorInterface
                 $return = false;
                 if ($from instanceof FileInterface && $from->getExtension() === 'phptwig') {
                     $return = true;
-                    $fileContent = $locator->get('renderer')->renderFile(
+                    $fileContent = $locator->get('renderer')->renderTemplate(
                         $from->getPathname(),
                         $templateData
                     );

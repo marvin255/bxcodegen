@@ -9,12 +9,21 @@ namespace marvin255\bxcodegen\service\renderer;
 interface RendererInterface
 {
     /**
-     * Задает параметр состояния по имени.
+     * Применяет данные из параметра опций к шаблону и возвращает новую строку.
      *
      * @param string $pathToTemplateFile Путь к файлу шаблона
      * @param array  $options            Массив настроек
      *
      * @return string
      */
-    public function renderFile($pathToTemplateFile, array $options = []);
+    public function renderTemplate($pathToTemplateFile, array $options = []);
+
+    /**
+     * Применяет данные из параметра опций к шаблону и записывает строку в файл.
+     *
+     * @param string $pathToTemplateFile Путь к файлу шаблона
+     * @param string $pathToDestFile     Путь к файлу, в который будет записан полученная строка
+     * @param array  $options            Массив настроек
+     */
+    public function renderTemplateToFile($pathToTemplateFile, array $options = []);
 }
