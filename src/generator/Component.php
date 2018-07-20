@@ -89,15 +89,12 @@ class Component implements GeneratorInterface
             ->clearTransformers()
             ->addTransformer(function ($from, $to) use ($locator, $templateData) {
                 $return = false;
-                if ($from instanceof FileInterface && $from->getExtension() === 'phptwig') {
+                if ($from instanceof FileInterface && $from->getExtension() === 'phptpl') {
                     $return = true;
-                    $fileContent = $locator->get('renderer')->renderTemplate(
+                    $locator->get('renderer')->renderTemplateToFile(
                         $from->getPathname(),
-                        $templateData
-                    );
-                    file_put_contents(
                         $to->getPath() . '/' . $to->getFilename() . '.php',
-                        $fileContent
+                        $templateData
                     );
                 }
 
