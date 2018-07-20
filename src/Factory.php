@@ -17,6 +17,24 @@ use InvalidArgumentException;
 class Factory
 {
     /**
+     * Регистрирует консольные команды в объекте приложения Symfony console,
+     * из настроек, указанных в yaml файле.
+     *
+     * @param \Symfony\Component\Console\Application $app
+     * @param string                                 $pathToYaml
+     *
+     * @return \Symfony\Component\Console\Application
+     */
+    public static function registerCommands(Application $app, $pathToYaml)
+    {
+        $bxcodegen = self::createCodegenFromYaml($pathToYaml);
+
+        $app->add((new GeneratorCommand)->setBxcodegen($bxcodegen));
+
+        return $app;
+    }
+
+    /**
      * Создает объект Bxcodegen из настроек в yaml файле.
      *
      * @param string $pathToYaml
@@ -25,7 +43,7 @@ class Factory
      *
      * @throws \InvalidArgumentException
      */
-    public static function createCodegenFromYaml($pathToYaml)
+    protected static function createCodegenFromYaml($pathToYaml)
     {
         $realPathToYaml = realpath($pathToYaml);
         if (!file_exists($realPathToYaml)) {
@@ -58,23 +76,5 @@ class Factory
         $locator = new ServiceLocator;
 
         return new Bxcodegen($options, $locator);
-    }
-
-    /**
-     * Регистрирует консольные команды в объекте приложения Symfony console,
-     * из настроек, указанных в yaml файле.
-     *
-     * @param \Symfony\Component\Console\Application $app
-     * @param string                                 $pathToYaml
-     *
-     * @return \Symfony\Component\Console\Application
-     */
-    public static function registerCommands(Application $app, $pathToYaml)
-    {
-        $bxcodegen = self::createCodegenFromYaml($pathToYaml);
-
-        $app->add((new GeneratorCommand)->setBxcodegen($bxcodegen));
-
-        return $app;
     }
 }
