@@ -63,7 +63,7 @@ class Factory
                         'modules' => '/web/local/modules',
                     ],
                 ],
-                'twig' => [
+                'renderer' => [
                     Twig::class,
                 ],
                 'copier' => [

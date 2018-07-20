@@ -31,7 +31,7 @@ class ComponentTest extends BaseCase
         ]);
 
         $locator = new ServiceLocator;
-        $locator->set('twig', new Twig);
+        $locator->set('renderer', new Twig);
         $locator->set('copier', new Copier);
         $locator->set('pathManager', new PathManager(dirname($this->folderPath), [
             'components' => 'components',
