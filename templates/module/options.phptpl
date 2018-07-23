@@ -1,0 +1,90 @@
+<?php
+
+use Bitrix\Main\Application;
+use Bitrix\Main\Config\Option;
+use Bitrix\Main\Localization\Loc;
+
+defined('ADMIN_MODULE_NAME') or define('ADMIN_MODULE_NAME', '{{ full_module_name }}');
+
+if (!$USER->isAdmin()) {
+    $APPLICATION->authForm(Loc::getMessage('ACCESS_DENIED'));
+}
+
+$app = Application::getInstance();
+$context = $app->getContext();
+$request = $context->getRequest();
+
+Loc::loadMessages($context->getServer()->getDocumentRoot() . '/bitrix/modules/main/options.php');
+Loc::loadMessages(__FILE__);
+
+$tabControl = new CAdminTabControl('tabControl', [
+    [
+        'DIV' => 'edit1',
+        'TAB' => Loc::getMessage('MAIN_TAB_SET'),
+        'TITLE' => Loc::getMessage('MAIN_TAB_TITLE_SET'),
+    ],
+], false, true);
+
+$isConfigComplete = false;
+if ((!empty($save) || !empty($restore)) && $request->isPost() && check_bitrix_sessid()) {
+    if (!empty($restore)) {
+        Option::delete(ADMIN_MODULE_NAME);
+    } else {
+        $fields = [
+            //название опций для записи в бд
+        ];
+        foreach ($fields as $field) {
+            if ($request->getPost($field) !== null) {
+                Option::set(
+                    ADMIN_MODULE_NAME,
+                    $field,
+                    $request->getPost($field)
+                );
+            }
+        }
+    }
+    $isConfigComplete = true;
+}
+
+$tabControl->begin();
+?>
+
+<form method="post" action="<?php echo $APPLICATION->getCurPageParam('mid=' . urlencode(ADMIN_MODULE_NAME), ['mid']); ?>">
+    <?php
+        echo bitrix_sessid_post();
+        $tabControl->beginNextTab();
+    ?>
+        <!-- <tr>
+            <td style="width: 40%;">
+                <label><?php echo Loc::getMessage('{{ install_class|upper }}_OPTION_LABEL'); ?>:</label>
+            <td style="width: 60%;">
+                <input
+                    type="text"
+                    size="50"
+                    name="charset"
+                    value="<?php echo htmlentities(Option::get(ADMIN_MODULE_NAME, 'option_name', 'UTF-8')); ?>"
+                />
+            </td>
+        </tr> -->
+    <?php
+        $tabControl->buttons();
+    ?>
+    <input type="submit"
+           name="save"
+           value="<?php echo Loc::getMessage('MAIN_SAVE'); ?>"
+           title="<?php echo Loc::getMessage('MAIN_OPT_SAVE_TITLE'); ?>"
+           class="adm-btn-save"
+           />
+    <input type="submit"
+           name="restore"
+           title="<?php echo Loc::getMessage('MAIN_HINT_RESTORE_DEFAULTS'); ?>"
+           onclick="return confirm('<?php echo addslashes(GetMessage('MAIN_HINT_RESTORE_DEFAULTS_WARNING')); ?>')"
+           value="<?php echo Loc::getMessage('MAIN_RESTORE_DEFAULTS'); ?>"
+           />
+</form>
+
+<?php
+$tabControl->end();
+if ($isConfigComplete) {
+    LocalRedirect($APPLICATION->getCurPageParam('mid=' . urlencode(ADMIN_MODULE_NAME), ['mid']));
+}

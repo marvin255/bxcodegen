@@ -1,0 +1,5 @@
+<?php
+
+$MESS['{{ install_class|upper }}_MODULE_NAME'] = '{{ readable_title }}';
+$MESS['{{ install_class|upper }}_MODULE_DESCRIPTION'] = '{{ readable_title }}';
+$MESS['{{ install_class|upper }}_MODULE_PARTNER_NAME'] = '{{ module_partner_name }}';

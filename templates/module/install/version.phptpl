@@ -1,0 +1,6 @@
+<?php
+
+$arModuleVersion = [
+    'VERSION' => '{{ version_number }}',
+    'VERSION_DATE' => '{{ version_date }}',
+];
