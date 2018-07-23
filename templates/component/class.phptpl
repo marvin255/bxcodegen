@@ -14,7 +14,7 @@ class {{ php_class }} extends CBitrixComponent
      */
     public function onPrepareComponentParams($p)
     {
-        //prepare component params
+        //подготавливаем параметры компонента
 
         return parent::onPrepareComponentParams($p);
     }
@@ -24,7 +24,7 @@ class {{ php_class }} extends CBitrixComponent
      */
     public function executeComponent()
     {
-        //run component logic
+        //запуск компонента
 
         return $this->arResult;
     }
