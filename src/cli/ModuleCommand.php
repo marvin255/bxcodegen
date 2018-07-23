@@ -46,9 +46,14 @@ class ModuleCommand extends GeneratorCommand
      */
     protected function collectOptionsFromInput(InputInterface $input)
     {
-        return new Collection([
+        $return = [
             'name' => $input->getArgument('name'),
-            'title' => $input->getOption('title'),
-        ]);
+        ];
+
+        if ($input->getOption('title') !== null) {
+            $return['title'] = $input->getOption('title');
+        }
+
+        return new Collection($return);
     }
 }
