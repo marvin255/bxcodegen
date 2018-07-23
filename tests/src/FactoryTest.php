@@ -4,6 +4,7 @@ namespace marvin255\bxcodegen\tests;
 
 use marvin255\bxcodegen\cli\GeneratorCommand;
 use marvin255\bxcodegen\cli\ComponentCommand;
+use marvin255\bxcodegen\cli\ModuleCommand;
 use marvin255\bxcodegen\Factory;
 use Symfony\Component\Console\Application;
 use InvalidArgumentException;
@@ -25,6 +26,9 @@ class FactoryTest extends BaseCase
         $app->expects($this->at(1))
             ->method('add')
             ->with($this->isInstanceOf(ComponentCommand::class));
+        $app->expects($this->at(2))
+            ->method('add')
+            ->with($this->isInstanceOf(ModuleCommand::class));
 
         $res = Factory::registerCommands($app, __DIR__ . '/_fixture/options.yaml');
 

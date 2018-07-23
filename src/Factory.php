@@ -7,8 +7,11 @@ use marvin255\bxcodegen\service\yaml\SymfonyYaml;
 use marvin255\bxcodegen\service\path\PathManager;
 use marvin255\bxcodegen\service\renderer\Twig;
 use marvin255\bxcodegen\service\filesystem\Copier;
+use marvin255\bxcodegen\generator\Component;
+use marvin255\bxcodegen\generator\Module;
 use marvin255\bxcodegen\cli\GeneratorCommand;
 use marvin255\bxcodegen\cli\ComponentCommand;
+use marvin255\bxcodegen\cli\ModuleCommand;
 use Symfony\Component\Console\Application;
 use InvalidArgumentException;
 
@@ -32,6 +35,7 @@ class Factory
 
         $app->add((new GeneratorCommand)->setBxcodegen($bxcodegen));
         $app->add((new ComponentCommand)->setBxcodegen($bxcodegen));
+        $app->add((new ModuleCommand)->setBxcodegen($bxcodegen));
 
         return $app;
     }
@@ -70,6 +74,14 @@ class Factory
                 ],
                 'copier' => [
                     Copier::class,
+                ],
+            ],
+            'generators' => [
+                'component' => [
+                    'class' => Component::class,
+                ],
+                'module' => [
+                    'class' => Module::class,
                 ],
             ],
         ];
