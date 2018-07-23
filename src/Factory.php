@@ -85,7 +85,7 @@ class Factory
                 ],
             ],
         ];
-        $yamlOptions = (new SymfonyYaml)->parseFromFile($realPathToYaml);
+        $yamlOptions = (new SymfonyYaml)->parseFromFile($realPathToYaml) ?: [];
         $options = new Collection(array_merge_recursive($defaultOptions, $yamlOptions));
         $locator = new ServiceLocator;
 
