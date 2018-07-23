@@ -64,15 +64,15 @@ class GeneratorCommand extends Command
         $generatorName = $this->collectGeneratorNameFromInput($input);
         $generatorOptions = $this->collectOptionsFromInput($input);
 
-        $output->writeln("<info>Starting {$generatorName} generator</info>");
+        $output->writeln("<info>Starting {$generatorName} generator:</info>");
 
         try {
             $this->bxcodegen->run($generatorName, $generatorOptions);
-            $output->writeln("<info>    Complited {$generatorName} generator</info>");
+            $output->writeln("<info>    - complited {$generatorName} generator</info>");
         } catch (Exception $e) {
             $msg = $e->getMessage();
             $output->writeln(
-                "<error>    Failed {$generatorName} generator: {$msg}</error>"
+                "<error>    - failed {$generatorName} generator: {$msg}</error>"
             );
         }
     }
