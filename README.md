@@ -117,8 +117,8 @@ services:
 services:
     pathManager:
         - marvin255\bxcodegen\service\path\PathManager
-        - @currDir
-        - {components: /web/local/components', modules: /web/local/modules}
+        - '@currDir'
+        - {components: /web/local/components, modules: /web/local/modules}
     renderer:
         - marvin255\bxcodegen\service\renderer\Twig
     copier:
