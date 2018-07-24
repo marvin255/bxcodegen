@@ -4,16 +4,14 @@ namespace marvin255\bxcodegen;
 
 use marvin255\bxcodegen\service\options\Collection;
 use marvin255\bxcodegen\service\yaml\SymfonyYaml;
-use marvin255\bxcodegen\service\path\PathManager;
 use marvin255\bxcodegen\service\renderer\Twig;
 use marvin255\bxcodegen\service\filesystem\Copier;
-use marvin255\bxcodegen\generator\Component;
-use marvin255\bxcodegen\generator\Module;
+use marvin255\bxcodegen\service\generator\Component;
+use marvin255\bxcodegen\service\generator\Module;
 use marvin255\bxcodegen\cli\GeneratorCommand;
 use marvin255\bxcodegen\cli\ComponentCommand;
 use marvin255\bxcodegen\cli\ModuleCommand;
 use Symfony\Component\Console\Application;
-use InvalidArgumentException;
 
 /**
  * Фабрика, которая создает и настраивает объект Bxcodegen.
@@ -49,46 +47,82 @@ class Factory
      *
      * @throws \InvalidArgumentException
      */
-    protected static function createCodegenFromYaml($pathToYaml)
+    protected static function createCodegenFromYaml($pathToYaml = null)
     {
-        $realPathToYaml = realpath($pathToYaml);
-        if (!file_exists($realPathToYaml)) {
-            throw new InvalidArgumentException(
-                "Can't find yaml with settings: {$pathToYaml}"
-            );
-        }
+        $realPathToYaml = $pathToYaml ? realpath($pathToYaml) : false;
 
-        $rootFolder = pathinfo($realPathToYaml, PATHINFO_DIRNAME);
-        $defaultOptions = [
-            'services' => [
-                'pathManager' => [
-                    PathManager::class,
-                    $rootFolder,
-                    [
-                        'components' => '/web/local/components',
-                        'modules' => '/web/local/modules',
+        if ($realPathToYaml && file_exists($realPathToYaml)) {
+            $arOptions = self::getOptionsFromYaml($realPathToYaml);
+        } else {
+            $arOptions = [
+                'services' => [
+                    'pathManager' => [
+                        PathManager::class,
+                        !empty($_SERVER['argv']) ? dirname($_SERVER['argv'][0]) : null,
+                        [
+                            'components' => '/web/local/components',
+                            'modules' => '/web/local/modules',
+                        ],
+                    ],
+                    'renderer' => [
+                        Twig::class,
+                    ],
+                    'copier' => [
+                        Copier::class,
                     ],
                 ],
-                'renderer' => [
-                    Twig::class,
+                'generators' => [
+                    'component' => [
+                        'class' => Component::class,
+                    ],
+                    'module' => [
+                        'class' => Module::class,
+                    ],
                 ],
-                'copier' => [
-                    Copier::class,
-                ],
-            ],
-            'generators' => [
-                'component' => [
-                    'class' => Component::class,
-                ],
-                'module' => [
-                    'class' => Module::class,
-                ],
-            ],
-        ];
-        $yamlOptions = (new SymfonyYaml)->parseFromFile($realPathToYaml) ?: [];
-        $options = new Collection(array_merge_recursive($defaultOptions, $yamlOptions));
-        $locator = new ServiceLocator;
+            ];
+        }
 
-        return new Bxcodegen($options, $locator);
+        return new Bxcodegen(new Collection($arOptions), new ServiceLocator);
+    }
+
+    /**
+     * Получает список настроек из yaml файла.
+     *
+     * @param string $pathToYaml
+     *
+     * @return array
+     */
+    protected static function getOptionsFromYaml($pathToYaml)
+    {
+        $raw = (new SymfonyYaml)->parseFromFile($pathToYaml) ?: [];
+
+        return self::setReplacesToArray($raw, [
+            '@currFile' => $pathToYaml,
+            '@currDir' => pathinfo($pathToYaml, PATHINFO_DIRNAME),
+        ]);
+    }
+
+    /**
+     * Производит замену плейсхолдеров на предопределенные значения.
+     *
+     * @param array $params
+     * @param array $replaces
+     *
+     * @return array
+     */
+    protected static function setReplacesToArray(array $params, array $replaces)
+    {
+        $return = [];
+        foreach ($params as $key => $value) {
+            if (is_array($value)) {
+                $return[$key] = self::setReplacesToArray($value, $replaces);
+            } elseif (array_key_exists($value, $replaces)) {
+                $return[$key] = $replaces[$value];
+            } else {
+                $return[$key] = $value;
+            }
+        }
+
+        return $return;
     }
 }

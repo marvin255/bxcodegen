@@ -98,7 +98,7 @@ $application->run();
 ```yaml
 services:
     myServiceName:
-        - \Path\To\ClassHandler
+        - Path\To\ClassHandler
         - constructor_param_string_1
         - constructor_param_string_2
 ```
@@ -108,29 +108,32 @@ services:
 ```yaml
 services:
     component:
-        class: \Path\To\ClassHandler
+        class: Path\To\ClassHandler
 ```
 
-Настройки проекта рекурсивно переопределяют дефолтные настройки библиотеки, которые можно представить в виде следующего yaml:
+Настройки проекта переопределяют дефолтные настройки библиотеки, которые можно представить в виде следующего yaml:
 
 ```yaml
 services:
     pathManager:
-        - \marvin255\bxcodegen\service\path\PathManager
-        - dirname/of/yaml/file
+        - marvin255\bxcodegen\service\path\PathManager
+        - @currDir
         - {components: /web/local/components', modules: /web/local/modules}
     renderer:
-        - \marvin255\bxcodegen\service\renderer\Twig
+        - marvin255\bxcodegen\service\renderer\Twig
     copier:
-        - \marvin255\bxcodegen\service\filesystem\Copier
+        - marvin255\bxcodegen\service\filesystem\Copier
+
 generators:
     component:
-        class: \marvin255\bxcodegen\generator\Component
+        class: marvin255\bxcodegen\generator\Component
     module:
-        class: \marvin255\bxcodegen\generator\Module
+        class: marvin255\bxcodegen\generator\Module
 ```
 
-Внутри файла настроек можно переопределить любые параметры текущих генераторов, либо добавить описания новых генераторов. Для новых генераторов нужно будет либо зарегистрировать отдельно созданную команду в консольном скрипте, либо использовать общую команду `bxcodegen:generate custom_generator_name` для генераторов.
+**Файл настроек полностью заменит дефолтные опции!**
+
+Внутри файла настроек можно переопределить любые параметры дефолтных генераторов, либо добавить описания новых генераторов. Для новых генераторов нужно будет либо зарегистрировать отдельно созданную команду в консольном скрипте, либо использовать общую команду `bxcodegen:generate custom_generator_name` для генераторов.
 
 
 
