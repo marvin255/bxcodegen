@@ -4,6 +4,6 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
 
-$MESS['{{ component_namespace|replace({'.':''})|upper }}_{{ component_name|replace({'.':''})|upper }}_NAME'] = '{{ readable_title }}';
-$MESS['{{ component_namespace|replace({'.':''})|upper }}_{{ component_name|replace({'.':''})|upper }}_DESCRIPTION'] = '{{ readable_title }}';
+$MESS['{{ component_namespace|replace({'.':'_'})|upper }}_{{ component_name|replace({'.':'_'})|upper }}_NAME'] = '{{ readable_title }}';
+$MESS['{{ component_namespace|replace({'.':'_'})|upper }}_{{ component_name|replace({'.':'_'})|upper }}_DESCRIPTION'] = '{{ readable_title }}';
 $MESS['COMPONENT_DESCRIPTION_CONTENT'] = 'Контент';
