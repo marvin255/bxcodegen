@@ -75,6 +75,32 @@ class ComponentTest extends BaseCase
     }
 
     /**
+     * @test
+     */
+    public function testRunDestinationExistsException()
+    {
+        $componentNamespace = 'component_namespace_' . mt_rand();
+        $componentName = 'component.name.' . mt_rand();
+
+        $options = new Collection([
+            'name' => "{$componentNamespace}:{$componentName}",
+        ]);
+
+        $locator = new ServiceLocator;
+        $locator->set('renderer', new Twig);
+        $locator->set('copier', new Copier);
+        $locator->set('pathManager', new PathManager(dirname($this->folderPath), [
+            'components' => 'components',
+        ]));
+
+        $generator = new Component;
+        $generator->generate($options, $locator);
+
+        $this->setExpectedException(InvalidArgumentException::class, $componentNamespace);
+        $generator->generate($options, $locator);
+    }
+
+    /**
      * Подготоваливает директорию для тестов.
      *
      * @throws \RuntimeException

@@ -30,6 +30,12 @@ class Module implements GeneratorInterface
         $source = new Directory($sourcePath);
         $destination = new Directory($destinationPath);
 
+        if ($destination->isExists()) {
+            throw new InvalidArgumentException(
+                'Directory ' . $destination->getPathname() . ' already exists'
+            );
+        }
+
         $copier->copyDir($source, $destination);
     }
 

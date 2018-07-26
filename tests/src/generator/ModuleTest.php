@@ -74,6 +74,31 @@ class ModuleTest extends BaseCase
     }
 
     /**
+     * @test
+     */
+    public function testRunDestinationExistsException()
+    {
+        $moduleName = 'vendor.name_' . mt_rand();
+
+        $options = new Collection([
+            'name' => $moduleName,
+        ]);
+
+        $locator = new ServiceLocator;
+        $locator->set('renderer', new Twig);
+        $locator->set('copier', new Copier);
+        $locator->set('pathManager', new PathManager(dirname($this->folderPath), [
+            'modules' => 'modules',
+        ]));
+
+        $generator = new Module;
+        $generator->generate($options, $locator);
+
+        $this->setExpectedException(InvalidArgumentException::class, $moduleName);
+        $generator->generate($options, $locator);
+    }
+
+    /**
      * Подготоваливает директорию для тестов.
      *
      * @throws \RuntimeException
