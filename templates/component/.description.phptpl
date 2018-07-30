@@ -12,11 +12,11 @@ $arComponentDescription = [
     'SORT' => 320,
     'COMPLEX' => 'N',
     'PATH' => [
-        'ID' => '{{ component_namespace }}',
-        'NAME' => Loc::getMessage('MAG'),
+        'ID' => 'content',
+        'NAME' => Loc::getMessage('COMPONENT_DESCRIPTION_CONTENT'),
         'CHILD' => [
-            'ID' => 'content',
-            'NAME' => Loc::getMessage('COMPONENT_DESCRIPTION_CONTENT')
+            'ID' => '{{ component_namespace }}',
+            'NAME' => Loc::getMessage('{{ component_namespace|replace({'.':'_'})|upper }}_{{ component_name|replace({'.':'_'})|upper }}_NAMESPACE'),
         ],
     ],
 ];
