@@ -63,11 +63,13 @@ class Component implements GeneratorInterface
         }
 
         $nameParts = array_map('strtolower', $nameParts);
+        $namespace = implode('', array_map('ucfirst', explode('.', $nameParts[1])));
+        $className = implode('', array_map('ucfirst', preg_split('/(\.|_)/', $nameParts[2])));
 
         $return = [
             'full_component_name' => $name,
-            'php_namespace' => implode('', array_map('ucfirst', explode('.', $nameParts[1]))),
-            'php_class' => ucfirst(str_replace('.', '', $nameParts[2])),
+            'php_namespace' => $namespace,
+            'php_class' => $className,
             'component_namespace' => $nameParts[1],
             'component_name' => $nameParts[2],
             'readable_title' => $options->get(

@@ -25,6 +25,7 @@ class ComponentTest extends BaseCase
     {
         $componentNamespace = 'component.namespace_' . mt_rand();
         $componentName = 'component.name.' . mt_rand();
+        $classString = 'class ' . implode('', array_map('ucfirst', preg_split('/(\.|_)/', $componentName)));
 
         $options = new Collection([
             'name' => "{$componentNamespace}:{$componentName}",
@@ -42,10 +43,7 @@ class ComponentTest extends BaseCase
 
         $classFile = "{$this->folderPath}/{$componentNamespace}/{$componentName}/class.php";
         $this->assertFileExists($classFile);
-        $this->assertContains(
-            'class ' . ucfirst(str_replace('.', '', $componentName)),
-            file_get_contents($classFile)
-        );
+        $this->assertContains($classString, file_get_contents($classFile));
     }
 
     /**
