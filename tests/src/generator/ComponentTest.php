@@ -49,6 +49,35 @@ class ComponentTest extends BaseCase
     /**
      * @test
      */
+    public function testRunWithDefaultNamespace()
+    {
+        $componentNamespace = 'component.namespace_' . mt_rand();
+        $componentName = 'component.name.' . mt_rand();
+        $classString = 'class ' . implode('', array_map('ucfirst', preg_split('/(\.|_)/', $componentName)));
+
+        $options = new Collection([
+            'name' => $componentName,
+            'default_namespace' => $componentNamespace,
+        ]);
+
+        $locator = new ServiceLocator;
+        $locator->set('renderer', new Twig);
+        $locator->set('copier', new Copier);
+        $locator->set('pathManager', new PathManager(dirname($this->folderPath), [
+            'components' => 'components',
+        ]));
+
+        $generator = new Component;
+        $generator->generate($options, $locator);
+
+        $classFile = "{$this->folderPath}/{$componentNamespace}/{$componentName}/class.php";
+        $this->assertFileExists($classFile);
+        $this->assertContains($classString, file_get_contents($classFile));
+    }
+
+    /**
+     * @test
+     */
     public function testRunEmptyNameException()
     {
         $options = new Collection([]);

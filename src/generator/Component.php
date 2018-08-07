@@ -56,7 +56,13 @@ class Component implements GeneratorInterface
             throw new InvalidArgumentException(
                 'Name option must be a non empty string'
             );
-        } elseif (!preg_match('/^([a-zA-Z0-9_\.]{3,}):([a-zA-Z0-9_\.]{3,})$/', $name, $nameParts)) {
+        }
+
+        if (mb_strpos($name, ':') === false && $options->get('default_namespace')) {
+            $name = $options->get('default_namespace') . ':' . $name;
+        }
+
+        if (!preg_match('/^([a-zA-Z0-9_\.]{3,}):([a-zA-Z0-9_\.]{3,})$/', $name, $nameParts)) {
             throw new InvalidArgumentException(
                 "Name option must be in format namespace:name, got: {$name}"
             );
