@@ -68,11 +68,11 @@ class GeneratorCommand extends Command
 
         try {
             $this->bxcodegen->run($generatorName, $generatorOptions);
-            $output->writeln("<info>    - complited {$generatorName} generator</info>");
+            $output->writeln("<info>    - {$generatorName} generator completed</info>");
         } catch (Exception $e) {
             $msg = $e->getMessage();
             $output->writeln(
-                "<error>    - failed {$generatorName} generator: {$msg}</error>"
+                "<error>    - {$generatorName} generator failed: {$msg}</error>"
             );
         }
     }
