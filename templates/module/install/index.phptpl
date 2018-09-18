@@ -4,6 +4,7 @@ use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\ModuleManager;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\EventManager;
+use Bitrix\Main\Application;
 
 /**
  * Установщик для модуля {{ full_module_name }}.
@@ -101,17 +102,96 @@ class {{ install_class }} extends CModule
     }
 
     /**
-     * Копирует файлы модуля в битрикс
+     * Возвращает список событий, которые должны быть установлены для данного модуля.
+     *
+     * @return array
+     */
+    protected function getEventsList()
+    {
+        return [];
+    }
+
+    /**
+     * Копирует файлы модуля в битрикс.
+     *
+     * @retrun bool
      */
     public function installFiles()
     {
+        $js = $this->getInstallatorPath() . '/js';
+        if (is_dir($js)) {
+            CopyDirFiles(
+                $js,
+                $this->getComponentPath('admin') . "/js/{$this->MODULE_ID}",
+                true,
+                true
+            );
+        }
+
+        $css = $this->getInstallatorPath() . '/css';
+        if (is_dir($css)) {
+            CopyDirFiles(
+                $css,
+                $this->getComponentPath('admin') . "/css/{$this->MODULE_ID}",
+                true,
+                true
+            );
+        }
+
+        $components = $this->getInstallatorPath() . '/components';
+        if (is_dir($components)) {
+            CopyDirFiles(
+                $components,
+                $this->getComponentPath('components') . "/{$this->MODULE_ID}",
+                true,
+                true
+            );
+        }
+
+        return true;
     }
 
     /**
      * Удаляет файлы модуля из битрикса.
+     *
+     * @retrun bool
      */
     public function unInstallFiles()
     {
+        $js = $this->getComponentPath('admin') . "/js/{$this->MODULE_ID}";
+        if (is_dir($js)) {
+            Directory::deleteDirectory($js);
+        }
+
+        $css = $this->getComponentPath('admin') . "/css/{$this->MODULE_ID}";
+        if (is_dir($css)) {
+            Directory::deleteDirectory($css);
+        }
+
+        $components = $this->getComponentPath('components') . "/{$this->MODULE_ID}";
+        if (is_dir($components)) {
+            Directory::deleteDirectory($components);
+        }
+
+        return true;
+    }
+
+    /**
+     * Возвращает путь к папке, в которую будут установлены компоненты модуля.
+     *
+     * @param string $type тип компонентов для установки (components, js, admin и т.д.)
+     *
+     * @return string
+     */
+    protected function getComponentPath($type = 'components')
+    {
+        if ($type === 'admin') {
+            $base = Application::getDocumentRoot() . '/bitrix';
+        } else {
+            $base = dirname(dirname(dirname($this->getInstallatorPath())));
+        }
+
+        return $base . '/' . str_replace(['/', '.'], '', $type);
     }
 
     /**
@@ -121,16 +201,6 @@ class {{ install_class }} extends CModule
      */
     protected function getInstallatorPath()
     {
-        return str_replace('\\', '/', __DIR__);
-    }
-
-    /**
-     * Возвращает список событий, которые должны быть установлены для данного модуля.
-     *
-     * @return array
-     */
-    protected function getEventsList()
-    {
-        return [];
+        return __DIR__;
     }
 }
