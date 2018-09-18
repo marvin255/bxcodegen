@@ -40,6 +40,39 @@ class ModuleTest extends BaseCase
         $generator->generate($options, $locator);
 
         $classFile = "{$this->folderPath}/{$moduleName}/install/index.php";
+        $optionsFile = "{$this->folderPath}/{$moduleName}/options.php";
+
+        $this->assertFileExists($optionsFile);
+        $this->assertFileExists($classFile);
+        $this->assertContains($moduleName, file_get_contents($classFile));
+    }
+
+    /**
+     * @test
+     */
+    public function testRunNoOptionsFile()
+    {
+        $moduleName = 'vendor.name_' . mt_rand();
+
+        $options = new Collection([
+            'name' => $moduleName,
+            'options' => false,
+        ]);
+
+        $locator = new ServiceLocator;
+        $locator->set('renderer', new Twig);
+        $locator->set('copier', new Copier);
+        $locator->set('pathManager', new PathManager(dirname($this->folderPath), [
+            'modules' => 'modules',
+        ]));
+
+        $generator = new Module;
+        $generator->generate($options, $locator);
+
+        $classFile = "{$this->folderPath}/{$moduleName}/install/index.php";
+        $optionsFile = "{$this->folderPath}/{$moduleName}/options.php";
+
+        $this->assertFileNotExists($optionsFile);
         $this->assertFileExists($classFile);
         $this->assertContains($moduleName, file_get_contents($classFile));
     }

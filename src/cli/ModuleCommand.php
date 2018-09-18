@@ -30,6 +30,13 @@ class ModuleCommand extends GeneratorCommand
                 't',
                 InputOption::VALUE_REQUIRED,
                 'Readable title for module'
+            )
+            ->addOption(
+                'withoutOptions',
+                'w',
+                InputOption::VALUE_OPTIONAL,
+                'Do not create options.php',
+                false
             );
     }
 
@@ -48,6 +55,7 @@ class ModuleCommand extends GeneratorCommand
     {
         $return = [
             'name' => $input->getArgument('name'),
+            'options' => !$input->getArgument('withoutOptions'),
         ];
 
         if ($input->getOption('title') !== null) {

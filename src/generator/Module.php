@@ -71,6 +71,7 @@ class Module implements GeneratorInterface
             'version_number' => $options->get('version_number', '0.0.1'),
             'version_date' => $options->get('version_date', date('Y-m-d')),
             'readable_title' => $options->get('title', ucfirst($matches[2])),
+            'options' => $options->get('options', true),
         ];
 
         return $return;
@@ -88,20 +89,31 @@ class Module implements GeneratorInterface
      */
     protected function getAndConfigurateCopierFromLocator(ServiceLocatorInterface $locator, array $templateData)
     {
+        //создание файла опций для модуля
+        $options = function ($from, $to) use ($templateData) {
+            return $from instanceof FileInterface
+                && $from->getFilename() === 'options'
+                && !$templateData['options'];
+        };
+
+        //отображение шаблона
+        $renderer = function ($from, $to) use ($locator, $templateData) {
+            $return = false;
+            if ($from instanceof FileInterface && $from->getExtension() === 'phptpl') {
+                $return = true;
+                $locator->get('renderer')->renderTemplateToFile(
+                    $from->getPathname(),
+                    $to->getPath() . '/' . $to->getFilename() . '.php',
+                    $templateData
+                );
+            }
+
+            return $return;
+        };
+
         return $locator->get('copier')
             ->clearTransformers()
-            ->addTransformer(function ($from, $to) use ($locator, $templateData) {
-                $return = false;
-                if ($from instanceof FileInterface && $from->getExtension() === 'phptpl') {
-                    $return = true;
-                    $locator->get('renderer')->renderTemplateToFile(
-                        $from->getPathname(),
-                        $to->getPath() . '/' . $to->getFilename() . '.php',
-                        $templateData
-                    );
-                }
-
-                return $return;
-            });
+            ->addTransformer($options)
+            ->addTransformer($renderer);
     }
 }
