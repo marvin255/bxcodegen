@@ -70,6 +70,18 @@ class {{ install_class }} extends CModule
                 $event['SORT']
             );
         }
+
+        foreach ($this->getAgentsList() as $agent) {
+            $res = CAgent::AddAgent(
+                "{{ php_namespace }}\Agency::runner('{$agent['NAME']}');",
+                $this->MODULE_ID,
+                'N',
+                $agent['PERIODICITY']
+            );
+            if (!$res) {
+                throw new Exception("Can't install Agency::{$agent['NAME']}");
+            }
+        }
     }
 
     /**
@@ -109,7 +121,33 @@ class {{ install_class }} extends CModule
      */
     protected function getEventsList()
     {
-        return [];
+        return [
+            /*
+            [
+                'FROM_MODULE_ID' => 'iblock',
+                'EVENT_TYPE' => 'OnAfterIBlockAdd',
+                'TO_CLASS' => '{{ php_namespace }}\Events',
+                'TO_METHOD' => 'example',
+            ],
+            */
+        ];
+    }
+
+    /**
+     * Возвращает список агентов, которые должен зарегистрировать модуль.
+     *
+     * @return array
+     */
+    protected function getAgentsList()
+    {
+        return [
+            /*
+            [
+                'NAME' => 'example',
+                'PERIODICITY' => 60 * 60 * 5,
+            ],
+            */
+        ];
     }
 
     /**
