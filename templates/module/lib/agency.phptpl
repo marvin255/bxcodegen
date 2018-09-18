@@ -1,0 +1,49 @@
+<?php
+
+namespace {{ php_namespace|trim('\\') }};
+
+use CEventLog;
+use Exception;
+
+/**
+ * Класс, который содержит в себе функции агентов
+ * для модуля {{ full_module_name }}.
+ */
+class Agency
+{
+    /**
+     * Загрузчик агентов модуля. Ищет соответствующего агента и запускает его.
+     *
+     * @param string $name
+     *
+     * @return string|null
+     */
+    public static function runner($name)
+    {
+        $return = "{{ php_namespace }}\Agency::runner('{$name}');";
+
+        try {
+            if (method_exists(self::class, $name)) {
+                self::$name();
+            } else {
+                throw new Exception("Wrong agent name: {$name}");
+            }
+        } catch (Exception $e) {
+            CEventLog::add([
+                'SEVERITY' => 'ERROR',
+                'AUDIT_TYPE_ID' => '{{ install_class|lower }}_agent_exception',
+                'MODULE_ID' => '{{ full_module_name }}',
+                'ITEM_ID' => "{{ php_namespace }}\Agency::{$name}",
+                'DESCRIPTION' => json_encode([
+                    'message' => $e->getMessage(),
+                    'code' => $e->getCode(),
+                    'class' => get_class($e),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                ], JSON_UNESCAPED_UNICODE),
+            ]);
+        }
+
+        return $return;
+    }
+}

@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ php_namespace|trim('\\') }};
+
+/**
+ * Класс, который содержит в себе функции для обработки событий
+ * для модуля {{ full_module_name }}.
+ */
+class Events
+{
+    /*
+    public static function example()
+    {
+    }
+    */
+}
