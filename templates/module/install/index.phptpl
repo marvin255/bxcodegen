@@ -5,6 +5,7 @@ use Bitrix\Main\ModuleManager;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\EventManager;
 use Bitrix\Main\Application;
+use Bitrix\Main\IO\Directory;
 
 /**
  * Установщик для модуля {{ full_module_name }}.
@@ -122,7 +123,7 @@ class {{ install_class }} extends CModule
         if (is_dir($js)) {
             CopyDirFiles(
                 $js,
-                $this->getComponentPath('admin') . "/js/{$this->MODULE_ID}",
+                Application::getDocumentRoot() . "/bitrix/js/{$this->MODULE_ID}",
                 true,
                 true
             );
@@ -132,7 +133,7 @@ class {{ install_class }} extends CModule
         if (is_dir($css)) {
             CopyDirFiles(
                 $css,
-                $this->getComponentPath('admin') . "/css/{$this->MODULE_ID}",
+                Application::getDocumentRoot() . "/bitrix/css/{$this->MODULE_ID}",
                 true,
                 true
             );
@@ -158,12 +159,12 @@ class {{ install_class }} extends CModule
      */
     public function unInstallFiles()
     {
-        $js = $this->getComponentPath('admin') . "/js/{$this->MODULE_ID}";
+        $js = Application::getDocumentRoot() . "/bitrix/js/{$this->MODULE_ID}";
         if (is_dir($js)) {
             Directory::deleteDirectory($js);
         }
 
-        $css = $this->getComponentPath('admin') . "/css/{$this->MODULE_ID}";
+        $css = Application::getDocumentRoot() . "/bitrix/css/{$this->MODULE_ID}";
         if (is_dir($css)) {
             Directory::deleteDirectory($css);
         }
