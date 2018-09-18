@@ -11,6 +11,12 @@ use Exception;
  */
 class Agency
 {
+    /*
+    public static function example()
+    {
+    }
+    */
+
     /**
      * Загрузчик агентов модуля. Ищет соответствующего агента и запускает его.
      *
