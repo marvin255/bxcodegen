@@ -71,30 +71,11 @@ class {{ install_class }} extends CModule
     }
 
     /**
-     * @inheritdoc
-     */
-    public function DoInstall()
-    {
-        ModuleManager::registerModule($this->MODULE_ID);
-        $this->installFiles();
-        $this->installDb();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function DoUninstall()
-    {
-        $this->unInstallDb();
-        $this->unInstallFiles();
-        ModuleManager::unregisterModule($this->MODULE_ID);
-    }
-
-    /**
      * Устанавливает данные модуля в базу данных сайта.
      */
     public function installDb()
     {
+        //регистрируем обработчики событий для модуля
         $eventManager = EventManager::getInstance();
         foreach ($this->getEventsList() as $event) {
             $res = $eventManager->registerEventHandlerCompatible(
@@ -107,6 +88,7 @@ class {{ install_class }} extends CModule
             );
         }
 
+        //регистрируем агентов модуля
         foreach ($this->getAgentsList() as $agent) {
             $res = CAgent::AddAgent(
                 "{{ php_namespace }}\Agency::runner('{$agent['NAME']}');",
@@ -137,7 +119,7 @@ class {{ install_class }} extends CModule
             );
         }
 
-        //на всякий случай дочищаем то, что осталось прямым запросом
+        //на всякий случай дочищаем то, что осталось, прямым запросом
         $connection = Bitrix\Main\Application::getConnection();
         $sqlHelper = $connection->getSqlHelper();
         $sql = "DELETE FROM b_module_to_module WHERE TO_MODULE_ID = '" . $sqlHelper->forSql($this->MODULE_ID) . "'";
@@ -241,5 +223,25 @@ class {{ install_class }} extends CModule
     protected function getInstallatorPath()
     {
         return __DIR__;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function DoInstall()
+    {
+        ModuleManager::registerModule($this->MODULE_ID);
+        $this->installFiles();
+        $this->installDb();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function DoUninstall()
+    {
+        $this->unInstallDb();
+        $this->unInstallFiles();
+        ModuleManager::unregisterModule($this->MODULE_ID);
     }
 }
