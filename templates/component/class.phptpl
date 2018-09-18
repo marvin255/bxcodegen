@@ -3,6 +3,9 @@
 namespace {{ php_namespace }};
 
 use CBitrixComponent;
+use Bitrix\Main\Loader;
+use Bitrix\Main\LoaderException;
+use Bitrix\Main\Application;
 
 /**
  * Класс для компонента: {{ readable_title }}.
@@ -14,6 +17,12 @@ class {{ php_class }} extends CBitrixComponent
      */
     public function onPrepareComponentParams($p)
     {
+        /*
+        if (!Loader::includeModule('iblock')) {
+            throw new LoaderException("Can't load iblock module");
+        }
+        */
+
         //подготовка параметров компонента
 
         return parent::onPrepareComponentParams($p);
