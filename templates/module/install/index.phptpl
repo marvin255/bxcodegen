@@ -75,6 +75,7 @@ class {{ install_class }} extends CModule
      */
     public function unInstallDb()
     {
+        //удаляем привязку к событиям официальным методом
         $eventManager = EventManager::getInstance();
         foreach ($this->getEventsList() as $event) {
             $eventManager->unRegisterEventHandler(
@@ -86,8 +87,16 @@ class {{ install_class }} extends CModule
             );
         }
 
+        //на всякий случай дочищаем то, что осталось прямым запросом
+        $connection = Bitrix\Main\Application::getConnection();
+        $sqlHelper = $connection->getSqlHelper();
+        $sql = "DELETE FROM b_module_to_module WHERE TO_MODULE_ID = '" . $sqlHelper->forSql($this->MODULE_ID) . "'";
+        $connection->queryExecute($sql);
+
+        //удаляем все опции модуля
         Option::delete($this->MODULE_ID);
 
+        //удаляем всех агентов модуля
         CAgent::removeModuleAgents($this->MODULE_ID);
     }
 
