@@ -55,7 +55,7 @@ class ModuleCommand extends GeneratorCommand
     {
         $return = [
             'name' => $input->getArgument('name'),
-            'options' => !$input->getOption('no-options'),
+            'options' => $input->getOption('no-options') === false,
         ];
 
         if ($input->getOption('title') !== null) {
