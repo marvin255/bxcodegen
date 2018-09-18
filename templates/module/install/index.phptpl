@@ -35,6 +35,42 @@ class {{ install_class }} extends CModule
     }
 
     /**
+     * Возвращает список событий, которые должны быть установлены для данного модуля.
+     *
+     * @return array
+     */
+    protected function getEventsList()
+    {
+        return [
+            /*
+            [
+                'FROM_MODULE_ID' => 'iblock',
+                'EVENT_TYPE' => 'OnAfterIBlockAdd',
+                'TO_CLASS' => '{{ php_namespace }}\Events',
+                'TO_METHOD' => 'example',
+            ],
+            */
+        ];
+    }
+
+    /**
+     * Возвращает список агентов, которые должен зарегистрировать модуль.
+     *
+     * @return array
+     */
+    protected function getAgentsList()
+    {
+        return [
+            /*
+            [
+                'NAME' => 'example',
+                'PERIODICITY' => 60 * 60 * 5,
+            ],
+            */
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public function DoInstall()
@@ -112,42 +148,6 @@ class {{ install_class }} extends CModule
 
         //удаляем всех агентов модуля
         CAgent::removeModuleAgents($this->MODULE_ID);
-    }
-
-    /**
-     * Возвращает список событий, которые должны быть установлены для данного модуля.
-     *
-     * @return array
-     */
-    protected function getEventsList()
-    {
-        return [
-            /*
-            [
-                'FROM_MODULE_ID' => 'iblock',
-                'EVENT_TYPE' => 'OnAfterIBlockAdd',
-                'TO_CLASS' => '{{ php_namespace }}\Events',
-                'TO_METHOD' => 'example',
-            ],
-            */
-        ];
-    }
-
-    /**
-     * Возвращает список агентов, которые должен зарегистрировать модуль.
-     *
-     * @return array
-     */
-    protected function getAgentsList()
-    {
-        return [
-            /*
-            [
-                'NAME' => 'example',
-                'PERIODICITY' => 60 * 60 * 5,
-            ],
-            */
-        ];
     }
 
     /**
