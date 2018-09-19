@@ -6,6 +6,7 @@ use marvin255\bxcodegen\service\options\Collection;
 use marvin255\bxcodegen\service\yaml\SymfonyYaml;
 use marvin255\bxcodegen\service\renderer\Twig;
 use marvin255\bxcodegen\service\filesystem\Copier;
+use marvin255\bxcodegen\service\path\PathManager;
 use marvin255\bxcodegen\generator\Component;
 use marvin255\bxcodegen\generator\Module;
 use marvin255\bxcodegen\cli\GeneratorCommand;
