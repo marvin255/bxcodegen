@@ -12,6 +12,7 @@ use marvin255\bxcodegen\cli\GeneratorCommand;
 use marvin255\bxcodegen\cli\ComponentCommand;
 use marvin255\bxcodegen\cli\ModuleCommand;
 use Symfony\Component\Console\Application;
+use InvalidArgumentException;
 
 /**
  * Фабрика, которая создает и настраивает объект Bxcodegen.
@@ -39,6 +40,45 @@ class Factory
     }
 
     /**
+     * Создает менеджер генераторов с дефолтными настройками.
+     *
+     * @param string $workDir
+     *
+     * @return \marvin255\bxcodegen\Bxcodegen
+     */
+    public static function createDefault($workDir)
+    {
+        $arOptions = [
+            'services' => [
+                'pathManager' => [
+                    PathManager::class,
+                    $workDir,
+                    [
+                        'components' => '/web/local/components',
+                        'modules' => '/web/local/modules',
+                    ],
+                ],
+                'renderer' => [
+                    Twig::class,
+                ],
+                'copier' => [
+                    Copier::class,
+                ],
+            ],
+            'generators' => [
+                'component' => [
+                    'class' => Component::class,
+                ],
+                'module' => [
+                    'class' => Module::class,
+                ],
+            ],
+        ];
+
+        return new Bxcodegen(new Collection($arOptions), new ServiceLocator);
+    }
+
+    /**
      * Создает объект Bxcodegen из настроек в yaml файле.
      *
      * @param string $pathToYaml
@@ -54,32 +94,7 @@ class Factory
         if ($realPathToYaml && file_exists($realPathToYaml)) {
             $arOptions = self::getOptionsFromYaml($realPathToYaml);
         } else {
-            $arOptions = [
-                'services' => [
-                    'pathManager' => [
-                        PathManager::class,
-                        dirname($pathToYaml),
-                        [
-                            'components' => '/web/local/components',
-                            'modules' => '/web/local/modules',
-                        ],
-                    ],
-                    'renderer' => [
-                        Twig::class,
-                    ],
-                    'copier' => [
-                        Copier::class,
-                    ],
-                ],
-                'generators' => [
-                    'component' => [
-                        'class' => Component::class,
-                    ],
-                    'module' => [
-                        'class' => Module::class,
-                    ],
-                ],
-            ];
+            throw new InvalidArgumentException("Yaml file doesn't exist");
         }
 
         return new Bxcodegen(new Collection($arOptions), new ServiceLocator);

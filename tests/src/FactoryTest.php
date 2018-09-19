@@ -2,11 +2,13 @@
 
 namespace marvin255\bxcodegen\tests;
 
+use marvin255\bxcodegen\Bxcodegen;
 use marvin255\bxcodegen\cli\GeneratorCommand;
 use marvin255\bxcodegen\cli\ComponentCommand;
 use marvin255\bxcodegen\cli\ModuleCommand;
 use marvin255\bxcodegen\Factory;
 use Symfony\Component\Console\Application;
+use InvalidArgumentException;
 
 class FactoryTest extends BaseCase
 {
@@ -32,5 +34,28 @@ class FactoryTest extends BaseCase
         $res = Factory::registerCommands($app, __DIR__ . '/_fixture/options.yaml');
 
         $this->assertInstanceOf(Application::class, $res);
+    }
+
+    /**
+     * @test
+     */
+    public function testRegisterCommandsEmptyYAmlException()
+    {
+        $app = $this->getMockBuilder(Application::class)
+           ->disableOriginalConstructor()
+           ->getMock();
+
+        $this->setExpectedException(InvalidArgumentException::class);
+        Factory::registerCommands($app, __DIR__ . '/_fixture/no_options.yaml');
+    }
+
+    /**
+     * @test
+     */
+    public function testCreateDefault()
+    {
+        $res = Factory::createDefault(__DIR__ . '/_fixture/');
+
+        $this->assertInstanceOf(Bxcodegen::class, $res);
     }
 }
