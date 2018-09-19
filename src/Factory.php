@@ -58,7 +58,7 @@ class Factory
                 'services' => [
                     'pathManager' => [
                         PathManager::class,
-                        !empty($_SERVER['argv']) ? dirname($_SERVER['argv'][0]) : null,
+                        dirname($pathToYaml),
                         [
                             'components' => '/web/local/components',
                             'modules' => '/web/local/modules',
