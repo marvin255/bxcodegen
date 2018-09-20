@@ -70,7 +70,7 @@ class GeneratorCommand extends Command
             $this->bxcodegen->run($generatorName, $generatorOptions);
             $output->writeln("<info>    - {$generatorName} generator completed</info>");
         } catch (Exception $e) {
-            $msg = $e->getMessage();
+            $msg = $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
             $output->writeln(
                 "<error>    - {$generatorName} generator failed: {$msg}</error>"
             );
