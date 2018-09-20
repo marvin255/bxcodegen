@@ -125,18 +125,11 @@ class Directory implements DirectoryInterface
     {
         $return = false;
         if (!$this->isExists()) {
-            $arPath = PathHelper::split($this->getPathname());
-            $current = '';
-            foreach ($arPath as $folder) {
-                $current = PathHelper::combine([$current, $folder]);
-                if (is_dir($current)) {
-                    continue;
-                }
-                if (!mkdir($current)) {
-                    throw new RuntimeException("Can't create {$current} folder");
-                }
+            if (mkdir($this->getPathname(), 0777, true)) {
+                $return = true;
+            } else {
+                throw new RuntimeException("Can't create " . $this->getPathname() . ' folder');
             }
-            $return = true;
         }
 
         return $return;
