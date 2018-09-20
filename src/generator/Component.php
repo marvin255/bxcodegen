@@ -3,7 +3,6 @@
 namespace marvin255\bxcodegen\generator;
 
 use marvin255\bxcodegen\service\options\CollectionInterface;
-use marvin255\bxcodegen\service\filesystem\FileInterface;
 use marvin255\bxcodegen\service\filesystem\Directory;
 use marvin255\bxcodegen\ServiceLocatorInterface;
 use InvalidArgumentException;
@@ -11,7 +10,7 @@ use InvalidArgumentException;
 /**
  * Генератор для создания компонентов битрикса.
  */
-class Component implements GeneratorInterface
+class Component extends AbstractGenerator
 {
     /**
      * {@inheritdoc}
@@ -85,34 +84,5 @@ class Component implements GeneratorInterface
         ];
 
         return $return;
-    }
-
-    /**
-     * Получает объект-копировщик из service locator и настраивает его.
-     *
-     * @param \marvin255\bxcodegen\ServiceLocatorInterface $locator
-     * @param array                                        $templateData
-     *
-     * @return \marvin255\bxcodegen\service\filesystem\CopierInterface
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected function getAndConfigurateCopierFromLocator(ServiceLocatorInterface $locator, array $templateData)
-    {
-        return $locator->get('copier')
-            ->clearTransformers()
-            ->addTransformer(function ($from, $to) use ($locator, $templateData) {
-                $return = false;
-                if ($from instanceof FileInterface && $from->getExtension() === 'phptpl') {
-                    $return = true;
-                    $locator->get('renderer')->renderTemplateToFile(
-                        $from->getPathname(),
-                        $to->getPath() . '/' . $to->getFilename() . '.php',
-                        $templateData
-                    );
-                }
-
-                return $return;
-            });
     }
 }

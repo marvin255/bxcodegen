@@ -39,7 +39,7 @@ class FactoryTest extends BaseCase
     /**
      * @test
      */
-    public function testRegisterCommandsEmptyYAmlException()
+    public function testRegisterCommandsEmptyYamlException()
     {
         $app = $this->getMockBuilder(Application::class)
            ->disableOriginalConstructor()

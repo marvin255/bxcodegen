@@ -11,7 +11,7 @@ use InvalidArgumentException;
 /**
  * Генератор для создания модулей битрикса.
  */
-class Module implements GeneratorInterface
+class Module extends AbstractGenerator
 {
     /**
      * {@inheritdoc}
@@ -78,14 +78,7 @@ class Module implements GeneratorInterface
     }
 
     /**
-     * Получает объект-копировщик из service locator и настраивает его.
-     *
-     * @param \marvin255\bxcodegen\ServiceLocatorInterface $locator
-     * @param array                                        $templateData
-     *
-     * @return \marvin255\bxcodegen\service\filesystem\CopierInterface
-     *
-     * @throws \InvalidArgumentException
+     * @inheritdoc
      */
     protected function getAndConfigurateCopierFromLocator(ServiceLocatorInterface $locator, array $templateData)
     {
@@ -111,8 +104,7 @@ class Module implements GeneratorInterface
             return $return;
         };
 
-        return $locator->get('copier')
-            ->clearTransformers()
+        return $locator->get('copier')->clearTransformers()
             ->addTransformer($options)
             ->addTransformer($renderer);
     }
