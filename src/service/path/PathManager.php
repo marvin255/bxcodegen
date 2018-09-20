@@ -2,6 +2,7 @@
 
 namespace marvin255\bxcodegen\service\path;
 
+use marvin255\bxcodegen\service\filesystem\PathHelper;
 use InvalidArgumentException;
 
 /**
@@ -36,7 +37,7 @@ class PathManager implements PathManagerInterface
      */
     public function __construct($absolutePath, array $aliases = [])
     {
-        $clearedAbsolutePath = realpath(rtrim($absolutePath, '/\\'));
+        $clearedAbsolutePath = PathHelper::getRealPath($absolutePath, true);
         if (!$clearedAbsolutePath || !is_dir($clearedAbsolutePath)) {
             throw new InvalidArgumentException(
                 "{$absolutePath} ({$clearedAbsolutePath}) is not an existed directory"
@@ -63,22 +64,19 @@ class PathManager implements PathManagerInterface
             );
         }
 
-        $this->aliases[$alias] = $this->convertAndTrimRelatedPath($path);
+        $this->aliases[$alias] = PathHelper::unify($path);
 
         return $this;
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @throws \InvalidArgumentException
+     * @inheritdoc
      */
     public function getAbsolutePath($path)
     {
-        $trimmedPath = $this->convertAndTrimRelatedPath($path);
-        $aliasReplacedPath = $this->replaceAliases($trimmedPath);
+        $aliasReplacedPath = $this->replaceAliases($path);
 
-        return $this->absolutePath . '/' . $aliasReplacedPath;
+        return PathHelper::combine($this->absolutePath, $aliasReplacedPath);
     }
 
     /**
@@ -97,37 +95,5 @@ class PathManager implements PathManagerInterface
         $toReplace = array_values($this->aliases);
 
         return str_replace($toSearch, $toReplace, $path);
-    }
-
-    /**
-     * Приводит путь к общему относительному виду.
-     *
-     * @param string $path
-     *
-     * @return string
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected function convertAndTrimRelatedPath($path)
-    {
-        if ($this->isPathUseDots($path)) {
-            throw new InvalidArgumentException(
-                "Path must not use dots. Got: {$path}"
-            );
-        }
-
-        return trim($path, " \t\n\r\0\x0B/\/");
-    }
-
-    /**
-     * Проверяет использованы ли в пути точки для перехода на верхний уровень.
-     *
-     * @param string $path
-     *
-     * @return bool
-     */
-    protected function isPathUseDots($path)
-    {
-        return (bool) preg_match('#(^|/)\.{1,2}(/|$)#', $path);
     }
 }

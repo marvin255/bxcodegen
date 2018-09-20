@@ -27,22 +27,13 @@ class PathManagerTest extends BaseCase
         $relativePath = '/dir/test.txt';
         $absolutePath = __DIR__ . '/_fixture/dir/test.txt';
 
+        $relativePath2 = '..\path\dir\test.txt';
+        $absolutePath2 = __DIR__ . '/_fixture/../path/dir/test.txt';
+
         $pathManager = new PathManager(__DIR__ . '/_fixture');
 
         $this->assertSame($absolutePath, $pathManager->getAbsolutePath($relativePath));
-    }
-
-    /**
-     * @test
-     */
-    public function testGetAbsolutePathPathException()
-    {
-        $relativePath = '../dir/test.txt';
-
-        $pathManager = new PathManager(__DIR__ . '/_fixture');
-
-        $this->setExpectedException(InvalidArgumentException::class, $relativePath);
-        $pathManager->getAbsolutePath($relativePath);
+        $this->assertSame($absolutePath2, $pathManager->getAbsolutePath($relativePath2));
     }
 
     /**
@@ -73,19 +64,6 @@ class PathManagerTest extends BaseCase
 
         $this->setExpectedException(InvalidArgumentException::class, $aliasName);
         $pathManager->setAlias($aliasName, '/dir/');
-    }
-
-    /**
-     * @test
-     */
-    public function testSetAliasPathException()
-    {
-        $aliasName = 'alias_name_' . mt_rand();
-        $aliasPath = '../dir/';
-        $pathManager = new PathManager(__DIR__ . '/_fixture');
-
-        $this->setExpectedException(InvalidArgumentException::class, $aliasPath);
-        $pathManager->setAlias($aliasName, $aliasPath);
     }
 
     /**
