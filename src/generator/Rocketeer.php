@@ -47,6 +47,21 @@ class Rocketeer extends AbstractGenerator
                 file_put_contents($gitignorePath, "\r\n\r\n" . $gitignoreData, FILE_APPEND);
             }
         }
+
+        if ($options->get('phar_inject', false)) {
+            $pharUrl = $options->get('phar_url', 'http://rocketeer.autopergamene.eu/versions/rocketeer.phar');
+            $pharPath = $locator->get('pathManager')->getAbsolutePath(
+                'rocketeer.phar'
+            );
+            $fh = @fopen($pharUrl, 'r');
+            if ($fh === false) {
+                throw new InvalidArgumentException(
+                    "Can't open {$pharUrl} for download"
+                );
+            }
+            file_put_contents($pharPath, $fh);
+            fclose($fh);
+        }
     }
 
     /**

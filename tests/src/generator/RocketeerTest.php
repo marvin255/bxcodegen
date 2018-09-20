@@ -43,6 +43,8 @@ class RocketeerTest extends BaseCase
             'key' => $key,
             'keyphrase' => $keyphrase,
             'gitignore_inject' => true,
+            'phar_inject' => true,
+            'phar_url' => "{$this->folderPath}/rocketeer.from",
         ]);
 
         $locator = new ServiceLocator;
@@ -57,11 +59,13 @@ class RocketeerTest extends BaseCase
         $remote = "{$this->folderPath}/.rocketeer/remote.php";
         $scm = "{$this->folderPath}/.rocketeer/scm.php";
         $gitignore = "{$this->folderPath}/.gitignore";
+        $rocketeerPhar = "{$this->folderPath}/rocketeer.phar";
 
         $this->assertFileExists($config);
         $this->assertFileExists($remote);
         $this->assertFileExists($scm);
         $this->assertFileExists($gitignore);
+        $this->assertFileExists($rocketeerPhar);
 
         $this->assertContains($projectName, file_get_contents($config));
         $this->assertContains($username, file_get_contents($config));
@@ -81,6 +85,32 @@ class RocketeerTest extends BaseCase
      * @test
      */
     public function testRunDestinationExistsException()
+    {
+        $phar = "{$this->folderPath}/rocketeer.empty";
+        $options = new Collection([
+            'name' => 'name',
+            'root_directory' => 'root_directory',
+            'repository' => 'repository',
+            'branch' => 'branch',
+            'phar_inject' => true,
+            'phar_url' => $phar,
+        ]);
+
+        $locator = new ServiceLocator;
+        $locator->set('renderer', new Twig);
+        $locator->set('copier', new Copier);
+        $locator->set('pathManager', new PathManager($this->folderPath));
+
+        $generator = new Rocketeer;
+
+        $this->setExpectedException(InvalidArgumentException::class, $phar);
+        $generator->generate($options, $locator);
+    }
+
+    /**
+     * @test
+     */
+    public function testRunEmptyPharException()
     {
         $options = new Collection([
             'name' => 'name',
@@ -114,6 +144,8 @@ class RocketeerTest extends BaseCase
                 "Can't create {$this->folderPath} folder"
             );
         }
+
+        file_put_contents("{$this->folderPath}/rocketeer.from", '123');
 
         parent::setUp();
     }
