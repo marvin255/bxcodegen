@@ -17,7 +17,7 @@
 Выполните команду в папке вашего проекта:
 
 ```
-composer require marvin255/bxcodegen:~0.1
+composer require marvin255/bxcodegen:~0.9
 ```
 
 
