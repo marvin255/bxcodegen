@@ -9,6 +9,7 @@ use marvin255\bxcodegen\service\filesystem\Copier;
 use marvin255\bxcodegen\service\path\PathManager;
 use marvin255\bxcodegen\generator\Component;
 use marvin255\bxcodegen\generator\Module;
+use marvin255\bxcodegen\generator\Rocketeer;
 use marvin255\bxcodegen\cli\GeneratorCommand;
 use marvin255\bxcodegen\cli\ComponentCommand;
 use marvin255\bxcodegen\cli\ModuleCommand;
@@ -67,6 +68,9 @@ class Factory
                 ],
             ],
             'generators' => [
+                'rocketeer' => [
+                    'class' => Rocketeer::class,
+                ],
                 'component' => [
                     'class' => Component::class,
                 ],
