@@ -40,20 +40,49 @@ class PathHelper
     }
 
     /**
-     * Объединяет два отрезка пути в один.
+     * Объединяет отрезки пути в общий путь.
      *
-     * @param string $pathHead
-     * @param string $pathTail
+     * @param array $parts
      *
      * @return string
      */
-    public static function combine($pathHead, $pathTail)
+    public static function combine(array $parts)
     {
         $separator = self::getDirectorySeparator();
-        $unifiedHead = PathHelper::unify($pathHead);
-        $unifiedTail = PathHelper::unify($pathTail);
 
-        return $unifiedHead . $separator . ltrim($unifiedTail, $separator);
+        $unifiedParts = array_values($parts);
+        array_walk($unifiedParts, function (&$part, $key) use ($separator) {
+            $part = PathHelper::unify($part);
+            $part = $key === 0 ? $part : ltrim($part, $separator);
+        });
+
+        return implode($separator, $unifiedParts);
+    }
+
+    /**
+     * Разбивает путь на отрезки.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function split($parts)
+    {
+        $separator = self::getDirectorySeparator();
+
+        return explode($separator, self::unify($parts));
+    }
+
+    /**
+     * Проверяет является ли путь абсолютным (начинается ли от корня).
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
+    public static function isAbsolute($path)
+    {
+        return preg_match('#^/.*#', $path) || preg_match('#^[a-zA-Z]{1}:.*#', $path);
     }
 
     /**

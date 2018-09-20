@@ -34,17 +34,17 @@ class File implements FileInterface
      */
     public function __construct($absolutePath)
     {
-        if (empty($absolutePath)) {
+        $unified = PathHelper::unify($absolutePath);
+        if (empty($unified)) {
             throw new InvalidArgumentException(
-                "absolutePath parameter can't be empty"
+                "absolutePath parameter can't be empty, got: {$unified}"
             );
         }
 
-        $info = pathinfo($absolutePath);
-        $dir = $info['dirname'];
-        $info['dirname'] = realpath($info['dirname']);
+        $info = pathinfo($unified);
+        $info['dirname'] = PathHelper::getRealPath($info['dirname']);
 
-        $this->absolutePath = $info['dirname'] . '/' . $info['basename'];
+        $this->absolutePath = PathHelper::combine([$info['dirname'], $info['basename']]);
         $this->info = $info;
     }
 

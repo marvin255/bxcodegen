@@ -76,7 +76,7 @@ class PathManager implements PathManagerInterface
     {
         $aliasReplacedPath = $this->replaceAliases($path);
 
-        return PathHelper::combine($this->absolutePath, $aliasReplacedPath);
+        return PathHelper::combine([$this->absolutePath, $aliasReplacedPath]);
     }
 
     /**

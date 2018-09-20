@@ -35,22 +35,21 @@ class Directory implements DirectoryInterface
      * Конструктор. Задает абсолютный путь к папке, а так же классы для
      * создания вложенных папок и файлов.
      *
-     * Папка должна существовать и должна быть доступна на запись.
-     *
      * @param $absolutePath
      * @param $fileClass
      */
     public function __construct($absolutePath, $fileClass = '\\marvin255\\bxcodegen\\service\\filesystem\\File')
     {
-        if (trim($absolutePath, ' \t\n\r\0\x0B\\/') === '') {
+        $unified = PathHelper::unify($absolutePath);
+        if (!$unified) {
             throw new InvalidArgumentException(
-                "absolutePath parameter can't be empty"
+                "absolutePath parameter can't be empty, got: {$absolutePath}"
             );
         }
 
-        if (!preg_match('/^\/.*+$/', $absolutePath)) {
+        if (!PathHelper::isAbsolute($unified)) {
             throw new InvalidArgumentException(
-                'absolutePath must starts from root'
+                "absolutePath must starts from root, got: {$absolutePath}"
             );
         }
 
@@ -60,7 +59,7 @@ class Directory implements DirectoryInterface
             );
         }
 
-        $this->absolutePath = $absolutePath;
+        $this->absolutePath = $unified;
         $this->fileClass = $fileClass;
     }
 
@@ -126,11 +125,10 @@ class Directory implements DirectoryInterface
     {
         $return = false;
         if (!$this->isExists()) {
-            $path = $this->getPathname();
-            $arPath = explode('/', ltrim($path, '/\\'));
+            $arPath = PathHelper::split($this->getPathname());
             $current = '';
             foreach ($arPath as $folder) {
-                $current .= '/' . $folder;
+                $current = PathHelper::combine([$current, $folder]);
                 if (is_dir($current)) {
                     continue;
                 }
