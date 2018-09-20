@@ -42,6 +42,7 @@ class RocketeerTest extends BaseCase
             'password' => $password,
             'key' => $key,
             'keyphrase' => $keyphrase,
+            'gitignore_inject' => true,
         ]);
 
         $locator = new ServiceLocator;
@@ -55,10 +56,12 @@ class RocketeerTest extends BaseCase
         $config = "{$this->folderPath}/.rocketeer/config.php";
         $remote = "{$this->folderPath}/.rocketeer/remote.php";
         $scm = "{$this->folderPath}/.rocketeer/scm.php";
+        $gitignore = "{$this->folderPath}/.gitignore";
 
         $this->assertFileExists($config);
         $this->assertFileExists($remote);
         $this->assertFileExists($scm);
+        $this->assertFileExists($gitignore);
 
         $this->assertContains($projectName, file_get_contents($config));
         $this->assertContains($username, file_get_contents($config));
@@ -70,6 +73,8 @@ class RocketeerTest extends BaseCase
 
         $this->assertContains($repository, file_get_contents($scm));
         $this->assertContains($branch, file_get_contents($scm));
+
+        $this->assertContains('.rocketeer/logs', file_get_contents($gitignore));
     }
 
     /**

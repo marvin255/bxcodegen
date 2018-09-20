@@ -13,20 +13,16 @@ use InvalidArgumentException;
 class Rocketeer extends AbstractGenerator
 {
     /**
-     * @var string
-     */
-    protected $rocketeerFolderName = '.rocketeer';
-
-    /**
      * {@inheritdoc}
      *
      * @throws \InvalidArgumentException
      */
     public function generate(CollectionInterface $options, ServiceLocatorInterface $locator)
     {
+        $rocketeerFolder = $options->get('rocketeer_folder', '.rocketeer');
         $templateData = $this->collectDataFromInputForTemplate($options);
         $sourcePath = $options->get('source', dirname(dirname(__DIR__)) . '/templates/rocketeer');
-        $destinationPath = $locator->get('pathManager')->getAbsolutePath("/{$this->rocketeerFolderName}");
+        $destinationPath = $locator->get('pathManager')->getAbsolutePath("/{$rocketeerFolder}");
 
         $copier = $this->getAndConfigurateCopierFromLocator($locator, $templateData);
         $source = new Directory($sourcePath);
@@ -39,6 +35,18 @@ class Rocketeer extends AbstractGenerator
         }
 
         $copier->copyDir($source, $destination);
+
+        if ($options->get('gitignore_inject', false)) {
+            $gitignorePath = $locator->get('pathManager')->getAbsolutePath(
+                $options->get('gitignore_path', '.gitignore')
+            );
+            $gitignoreData = '.rocketeer/logs';
+            if (!file_exists($gitignorePath)) {
+                file_put_contents($gitignorePath, $gitignoreData);
+            } elseif (mb_strpos(file_get_contents($gitignorePath), $gitignoreData) === false) {
+                file_put_contents($gitignorePath, "\r\n\r\n" . $gitignoreData, FILE_APPEND);
+            }
+        }
     }
 
     /**
