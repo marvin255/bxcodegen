@@ -38,6 +38,7 @@ class RocketeerTest extends BaseCase
             'root_directory' => $root,
             'repository' => $repository,
             'branch' => $branch,
+            'host' => $host,
             'username' => $username,
             'password' => $password,
             'key' => $key,
@@ -68,6 +69,7 @@ class RocketeerTest extends BaseCase
         $this->assertFileExists($rocketeerPhar);
 
         $this->assertContains($projectName, file_get_contents($config));
+        $this->assertContains($host, file_get_contents($config));
         $this->assertContains($username, file_get_contents($config));
         $this->assertContains($password, file_get_contents($config));
         $this->assertContains($key, file_get_contents($config));

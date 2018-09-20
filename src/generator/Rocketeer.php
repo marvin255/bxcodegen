@@ -80,6 +80,7 @@ class Rocketeer extends AbstractGenerator
             'root_directory' => $options->get('root_directory', ''),
             'repository' => $options->get('repository', ''),
             'branch' => $options->get('branch', 'master'),
+            'host' => $options->get('host', ''),
             'username' => $options->get('username', ''),
             'password' => $options->get('password', ''),
             'key' => $options->get('key', ''),
