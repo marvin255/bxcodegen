@@ -36,13 +36,13 @@ class PathManager implements PathManagerInterface
      */
     public function __construct($absolutePath, array $aliases = [])
     {
-        $clearedAbsolutePath = realpath($absolutePath);
+        $clearedAbsolutePath = realpath(rtrim($absolutePath, '/\\'));
         if (!$clearedAbsolutePath || !is_dir($clearedAbsolutePath)) {
             throw new InvalidArgumentException(
-                "{$absolutePath} is not an existed directory"
+                "{$absolutePath} ({$clearedAbsolutePath}) is not an existed directory"
             );
         }
-        $this->absolutePath = rtrim($clearedAbsolutePath, '/\\');
+        $this->absolutePath = $clearedAbsolutePath;
 
         foreach ($aliases as $alias => $path) {
             $this->setAlias($alias, $path);
