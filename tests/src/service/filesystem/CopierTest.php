@@ -145,31 +145,9 @@ class CopierTest extends BaseCase
      */
     public function tearDown()
     {
-        self::rmdir($this->sourceFolderPath);
-        self::rmdir($this->destinationFolderPath);
+        $this->removeDir($this->sourceFolderPath);
+        $this->removeDir($this->destinationFolderPath);
 
         parent::tearDown();
-    }
-
-    /**
-     * Удаляет папку со всеми вложенными элементами.
-     *
-     * @param string $folderPath
-     */
-    protected static function rmdir($folderPath)
-    {
-        if (is_dir($folderPath)) {
-            $objects = scandir($folderPath);
-            foreach ($objects as $object) {
-                if ($object != '.' && $object != '..') {
-                    if (is_dir($folderPath . '/' . $object)) {
-                        self::rmdir($folderPath . '/' . $object);
-                    } else {
-                        unlink($folderPath . '/' . $object);
-                    }
-                }
-            }
-            rmdir($folderPath);
-        }
     }
 }
