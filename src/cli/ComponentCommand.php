@@ -8,10 +8,10 @@ use Symfony\Component\Console\Input\InputOption;
 use marvin255\bxcodegen\service\options\Collection;
 
 /**
- * Консольная команда для Symfony console, которая запускает указанный
+ * Консольная команда для Symfony console, которая запускает
  * генератор компонента.
  */
-class ComponentCommand extends GeneratorCommand
+class ComponentCommand extends AbstractCommand
 {
     /**
      * @inheritdoc

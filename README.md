@@ -142,6 +142,4 @@ generators:
 
 1. `bxcodegen:module vendor.module_name` - создать модуль с именем `vendor.module_name`,
 
-2. `bxcodegen:component vendor.module_name:component_name` - создать компонент с именем `vendor.module_name:component_name`,
-
-3. `bxcodegen:generate module -o name=vendor.module_name` - создать код с использованием кастомного генератора указанного в первом параметре, все настройки передаются с помощью ключа `-o`, в значениях которого лежит пара `имя опции=значение опции`, разделенная символом `=`.
+2. `bxcodegen:component vendor.module_name:component_name` - создать компонент с именем `vendor.module_name:component_name`.
