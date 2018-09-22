@@ -1,1 +1,5 @@
 test_option: test
+test_option_replace: '@currDir'
+test_nested:
+    test_nested_test: test
+    test_nested_replace: '@currDir'

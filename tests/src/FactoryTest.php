@@ -31,9 +31,15 @@ class FactoryTest extends BaseCase
             ->method('add')
             ->with($this->isInstanceOf(RocketeerCommand::class));
 
-        $res = Factory::registerCommands($app, __DIR__ . '/_fixture/options.yaml');
+        $fixturesFolder = __DIR__ . '/_fixture';
+        $codegen = Factory::registerCommands($app, $fixturesFolder . '/options.yaml');
 
-        $this->assertInstanceOf(Application::class, $res);
+        $this->assertInstanceOf(Bxcodegen::class, $codegen);
+        $this->assertSame($fixturesFolder, $codegen->getOptions()->get('test_option_replace'));
+        $this->assertSame(
+            ['test_nested_test' => 'test', 'test_nested_replace' => $fixturesFolder],
+            $codegen->getOptions()->get('test_nested')
+        );
     }
 
     /**

@@ -13,7 +13,7 @@ use InvalidArgumentException;
 class Bxcodegen
 {
     /**
-     * @var \marvin255\bxcodegen\service\options\CollectionInterface
+     * @var marvin255\bxcodegen\service\options\CollectionInterface
      */
     protected $options;
     /**
@@ -33,6 +33,16 @@ class Bxcodegen
     {
         $this->options = $options;
         $this->locator = $locator;
+    }
+
+    /**
+     * Возвращает объект с опциями.
+     *
+     * @return marvin255\bxcodegen\service\options\CollectionInterface
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 
     /**

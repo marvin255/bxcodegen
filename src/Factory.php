@@ -28,7 +28,7 @@ class Factory
      * @param \Symfony\Component\Console\Application $app
      * @param string                                 $pathToYaml
      *
-     * @return \Symfony\Component\Console\Application
+     * @return \marvin255\bxcodegen\Bxcodegen
      */
     public static function registerCommands(Application $app, $pathToYaml)
     {
@@ -38,7 +38,7 @@ class Factory
         $app->add((new ModuleCommand)->setBxcodegen($bxcodegen));
         $app->add((new RocketeerCommand)->setBxcodegen($bxcodegen));
 
-        return $app;
+        return $bxcodegen;
     }
 
     /**

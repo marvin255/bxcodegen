@@ -66,6 +66,18 @@ class BxcodegenTest extends BaseCase
         $this->setExpectedException(InvalidArgumentException::class, $generatorName);
         $bxcodegen->run($generatorName, $optionsForRun);
     }
+
+    /**
+     * @test
+     */
+    public function testGetOptions()
+    {
+        $options = new Collection([]);
+        $locator = new ServiceLocator;
+        $bxcodegen = new Bxcodegen($options, $locator);
+
+        $this->assertSame($options, $bxcodegen->getOptions());
+    }
 }
 
 /**
