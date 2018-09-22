@@ -86,6 +86,36 @@ class RocketeerTest extends BaseCase
     /**
      * @test
      */
+    public function testRunWithExistingGitignore()
+    {
+        $gitignore = "{$this->folderPath}/.gitignore";
+
+        $projectName = 'project_' . mt_rand();
+        $gitignoreContent = 'gitignore_' . mt_rand();
+
+        file_put_contents($gitignore, $gitignoreContent);
+
+        $options = new Collection([
+            'application_name' => $projectName,
+            'gitignore_inject' => true,
+        ]);
+
+        $locator = new ServiceLocator;
+        $locator->set('renderer', new Twig);
+        $locator->set('copier', new Copier);
+        $locator->set('pathManager', new PathManager($this->folderPath));
+
+        $generator = new Rocketeer;
+        $generator->generate($options, $locator);
+
+        $this->assertFileExists($gitignore);
+        $this->assertContains($gitignoreContent, file_get_contents($gitignore));
+        $this->assertContains('.rocketeer/logs', file_get_contents($gitignore));
+    }
+
+    /**
+     * @test
+     */
     public function testRunDestinationExistsException()
     {
         $phar = "{$this->folderPath}/rocketeer.empty";
