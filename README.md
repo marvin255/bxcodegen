@@ -129,11 +129,13 @@ generators:
         class: marvin255\bxcodegen\generator\Component
     module:
         class: marvin255\bxcodegen\generator\Module
+    rocketeer:
+        class: marvin255\bxcodegen\generator\Rocketeer
 ```
 
 **Файл настроек полностью заменит дефолтные опции!**
 
-Внутри файла настроек можно переопределить любые параметры дефолтных генераторов, либо добавить описания новых генераторов. Для новых генераторов нужно будет либо зарегистрировать отдельно созданную команду в консольном скрипте, либо использовать общую команду `bxcodegen:generate custom_generator_name` для генераторов.
+Внутри файла настроек можно переопределить любые параметры дефолтных генераторов, либо добавить описания новых генераторов. Для новых генераторов нужно будет либо зарегистрировать отдельно созданную команду в консольном скрипте.
 
 
 
@@ -143,3 +145,5 @@ generators:
 1. `bxcodegen:module vendor.module_name` - создать модуль с именем `vendor.module_name`,
 
 2. `bxcodegen:component vendor.module_name:component_name` - создать компонент с именем `vendor.module_name:component_name`.
+
+2. `bxcodegen:rocketeer` - создать конфиг проекта для rocketeer.
