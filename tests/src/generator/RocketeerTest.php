@@ -187,24 +187,7 @@ class RocketeerTest extends BaseCase
      */
     public function tearDown()
     {
-        if (is_dir($this->folderPath)) {
-            $it = new \RecursiveDirectoryIterator(
-                $this->folderPath,
-                \RecursiveDirectoryIterator::SKIP_DOTS
-            );
-            $files = new \RecursiveIteratorIterator(
-                $it,
-                \RecursiveIteratorIterator::CHILD_FIRST
-            );
-            foreach ($files as $file) {
-                if ($file->isDir()) {
-                    rmdir($file->getRealPath());
-                } elseif ($file->isFile()) {
-                    unlink($file->getRealPath());
-                }
-            }
-            rmdir($this->folderPath);
-        }
+        $this->removeDir($this->folderPath);
 
         parent::tearDown();
     }
