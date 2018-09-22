@@ -77,13 +77,13 @@ class RocketeerCommand extends AbstractCommand
     protected function collectOptionsFromInput(InputInterface $input)
     {
         $return = [
-            'application_name' => $input->getArgument('application'),
-            'root_directory' => $input->getArgument('root'),
-            'repository' => $input->getArgument('repository'),
-            'branch' => $input->getArgument('branch'),
-            'host' => $input->getArgument('host'),
-            'username' => $input->getArgument('username'),
-            'password' => $input->getArgument('password'),
+            'application_name' => $input->getOption('application'),
+            'root_directory' => $input->getOption('root'),
+            'repository' => $input->getOption('repository'),
+            'branch' => $input->getOption('branch'),
+            'host' => $input->getOption('host'),
+            'username' => $input->getOption('username'),
+            'password' => $input->getOption('password'),
             'gitignore_inject' => true,
             'phar_inject' => true,
         ];
