@@ -107,15 +107,10 @@ class CopierTest extends BaseCase
     public function setUp()
     {
         //исходная папка
-        $this->sourceFolderPath = sys_get_temp_dir() . '/source_folder_' . mt_rand();
-        if (!mkdir($this->sourceFolderPath, 0777, true)) {
-            throw new InvalidArgumentException(
-                "Can't create source folder"
-            );
-        }
+        $this->sourceFolderPath = $this->getTempFolder('copier_source');
 
         //папка, в которую будет произведено копирование
-        $this->destinationFolderPath = sys_get_temp_dir() . '/destination_folder_' . mt_rand();
+        $this->destinationFolderPath = $this->getTempFolder('copier_destination');
 
         //вложенная папка с файлом
         $subFolder = $this->sourceFolderPath
@@ -138,16 +133,5 @@ class CopierTest extends BaseCase
         $this->sourceFolderChildren[$subFile] = $subFileDest;
 
         parent::setUp();
-    }
-
-    /**
-     * Удаляет тестовую директорию и все е содержимое.
-     */
-    public function tearDown()
-    {
-        $this->removeDir($this->sourceFolderPath);
-        $this->removeDir($this->destinationFolderPath);
-
-        parent::tearDown();
     }
 }

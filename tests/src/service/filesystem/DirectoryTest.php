@@ -155,7 +155,7 @@ class DirectoryTest extends BaseCase
     public function setUp()
     {
         $folderName = 'folder_name_' . mt_rand();
-        $rootPath = sys_get_temp_dir() . '/root_folder_' . mt_rand();
+        $rootPath = $this->getTempFolder();
 
         $this->folderPath = $rootPath . '/' . $folderName;
         $this->info = [
@@ -165,15 +165,5 @@ class DirectoryTest extends BaseCase
         ];
 
         parent::setUp();
-    }
-
-    /**
-     * Удаляет тестовую директорию и все е содержимое.
-     */
-    public function tearDown()
-    {
-        $this->removeDir($this->folderPath);
-
-        parent::tearDown();
     }
 }

@@ -93,9 +93,8 @@ class FileTest extends BaseCase
      */
     public function setUp()
     {
-        $name = sys_get_temp_dir()
-            . '/file_name_' . mt_rand()
-            . '.ext' . mt_rand();
+        $rootPath = $this->getTempFolder();
+        $name = $rootPath . '/file_name_' . mt_rand() . '.ext' . mt_rand();
 
         file_put_contents($name, mt_rand());
 
@@ -108,17 +107,5 @@ class FileTest extends BaseCase
             : null;
 
         parent::setUp();
-    }
-
-    /**
-     * Удаляет тестовый файл.
-     */
-    public function tearDown()
-    {
-        if (file_exists($this->tempFile)) {
-            unlink($this->tempFile);
-        }
-
-        parent::tearDown();
     }
 }

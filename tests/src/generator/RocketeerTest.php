@@ -170,25 +170,10 @@ class RocketeerTest extends BaseCase
      */
     public function setUp()
     {
-        $this->folderPath = sys_get_temp_dir() . '/rocketeer';
-        if (!mkdir($this->folderPath)) {
-            throw new RuntimeException(
-                "Can't create {$this->folderPath} folder"
-            );
-        }
+        $this->folderPath = $this->getTempFolder();
 
         file_put_contents("{$this->folderPath}/rocketeer.from", '123');
 
         parent::setUp();
-    }
-
-    /**
-     * Удаляет тестовую директорию и все ее содержимое.
-     */
-    public function tearDown()
-    {
-        $this->removeDir($this->folderPath);
-
-        parent::tearDown();
     }
 }

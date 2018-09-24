@@ -138,23 +138,8 @@ class ModuleTest extends BaseCase
      */
     public function setUp()
     {
-        $this->folderPath = sys_get_temp_dir() . '/modules';
-        if (!mkdir($this->folderPath)) {
-            throw new RuntimeException(
-                "Can't create {$this->folderPath} folder"
-            );
-        }
+        $this->folderPath = $this->getTempFolder('modules');
 
         parent::setUp();
-    }
-
-    /**
-     * Удаляет тестовую директорию и все ее содержимое.
-     */
-    public function tearDown()
-    {
-        $this->removeDir($this->folderPath);
-
-        parent::tearDown();
     }
 }
