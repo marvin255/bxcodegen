@@ -26,4 +26,28 @@ interface PathManagerInterface
      * @return string
      */
     public function getAbsolutePath($path);
+
+    /**
+     * Задает путь в файловой системе для определенного пространства имен.
+     * Допустимо использование алиасов.
+     *
+     * @param string $namespace
+     * @param string $path
+     *
+     * @return self
+     */
+    public function setPathForNamespace($namespace, $path);
+
+    /**
+     * Возвращает абсолютный путь к файлу, в котором расположен указанный класс.
+     *
+     * Если нетпрямого указания пути, то пытается найти путь для самого длинного
+     * пространства имен, в которое входит класс, и добавить к нему остальной путь
+     * согласно соглашениям для автозагрузчика битрикс.
+     *
+     * @param string $className
+     *
+     * @return string|null
+     */
+    public function getAbsolutePathForClass($className);
 }
