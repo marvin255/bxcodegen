@@ -1,0 +1,43 @@
+<?php
+
+namespace {{ namespace }};
+
+use Bitrix\Main\Entity;
+
+/**
+ * Orm для таблицы {{ table }}.
+ */
+class {{ model_name }} extends Entity\DataManager
+{
+    /**
+     * @inheritdoc
+     */
+    public static function getTableName()
+    {
+        return '{{ table }}';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function getMap()
+    {
+        return [
+            // задайте описания полей
+            // new Entity\IntegerField('id', ['primary' => true]),
+            // new Entity\StringField('name', ['required' => true]),
+        ];
+    }
+{% if create_query %}
+
+    /**
+     * Возвращает инициированный объект условия для поиска.
+     *
+     * @return {{ query_namespace_with_name }}
+     */
+    public static function search()
+    {
+        return new {{ query_name }}(static::class);
+    }
+{% endif %}
+}

@@ -6,6 +6,7 @@ use marvin255\bxcodegen\Bxcodegen;
 use marvin255\bxcodegen\cli\ComponentCommand;
 use marvin255\bxcodegen\cli\ModuleCommand;
 use marvin255\bxcodegen\cli\RocketeerCommand;
+use marvin255\bxcodegen\cli\OrmCommand;
 use marvin255\bxcodegen\Factory;
 use Symfony\Component\Console\Application;
 use InvalidArgumentException;
@@ -30,6 +31,9 @@ class FactoryTest extends BaseCase
         $app->expects($this->at(2))
             ->method('add')
             ->with($this->isInstanceOf(RocketeerCommand::class));
+        $app->expects($this->at(3))
+            ->method('add')
+            ->with($this->isInstanceOf(OrmCommand::class));
 
         $fixturesFolder = __DIR__ . '/_fixture';
         $codegen = Factory::registerCommands($app, $fixturesFolder . '/options.yaml');

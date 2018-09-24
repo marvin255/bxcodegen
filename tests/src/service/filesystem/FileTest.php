@@ -29,6 +29,17 @@ class FileTest extends BaseCase
     /**
      * @test
      */
+    public function testRelativeAbsolutePathException()
+    {
+        $path = 'some/item';
+
+        $this->expectException(InvalidArgumentException::class, $path);
+        $file = new File($path);
+    }
+
+    /**
+     * @test
+     */
     public function testGetPathName()
     {
         $file = new File($this->tempFile);
@@ -86,6 +97,18 @@ class FileTest extends BaseCase
         $this->assertSame(true, $file->isExists());
         $this->assertSame(true, $file->delete());
         $this->assertSame(false, $file->isExists());
+    }
+
+    /**
+     * @test
+     */
+    public function testIsExists()
+    {
+        $file = new File($this->tempFile);
+        $notFile = new File(dirname($this->tempFile) . '/not_exist.txt');
+
+        $this->assertSame(true, $file->isExists());
+        $this->assertSame(false, $notFile->isExists());
     }
 
     /**

@@ -129,6 +129,8 @@ generators:
         class: marvin255\bxcodegen\generator\Component
     module:
         class: marvin255\bxcodegen\generator\Module
+    orm:
+        class: marvin255\bxcodegen\generator\Orm
     rocketeer:
         class: marvin255\bxcodegen\generator\Rocketeer
 ```
@@ -146,4 +148,6 @@ generators:
 
 2. `bxcodegen:component vendor.module_name:component_name` - создать компонент с именем `vendor.module_name:component_name`.
 
-2. `bxcodegen:rocketeer` - создать конфиг проекта для rocketeer.
+3. `bxcodegen:orm table_name '\Class\Name\ModelTable'` - создать orm с классом `\Class\Name\ModelTable` для таблицы `table_name`.
+
+4. `bxcodegen:rocketeer` - создать конфиг проекта для rocketeer.

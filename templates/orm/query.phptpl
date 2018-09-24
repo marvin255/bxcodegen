@@ -1,0 +1,20 @@
+<?php
+
+namespace {{ namespace }};
+
+use Bitrix\Main\Entity\Query;
+
+/**
+ * Объект с условиями поиска для модели {{ model_name }}.
+ */
+class {{ query_name }} extends Query
+{
+    /*
+    public function byName($name)
+    {
+        $this->addFilter('=name', $name);
+
+        return $this;
+    }
+    */
+}

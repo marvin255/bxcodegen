@@ -10,9 +10,11 @@ use marvin255\bxcodegen\service\path\PathManager;
 use marvin255\bxcodegen\generator\Component;
 use marvin255\bxcodegen\generator\Module;
 use marvin255\bxcodegen\generator\Rocketeer;
+use marvin255\bxcodegen\generator\Orm;
 use marvin255\bxcodegen\cli\ComponentCommand;
 use marvin255\bxcodegen\cli\ModuleCommand;
 use marvin255\bxcodegen\cli\RocketeerCommand;
+use marvin255\bxcodegen\cli\OrmCommand;
 use Symfony\Component\Console\Application;
 use InvalidArgumentException;
 
@@ -37,6 +39,7 @@ class Factory
         $app->add((new ComponentCommand)->setBxcodegen($bxcodegen));
         $app->add((new ModuleCommand)->setBxcodegen($bxcodegen));
         $app->add((new RocketeerCommand)->setBxcodegen($bxcodegen));
+        $app->add((new OrmCommand)->setBxcodegen($bxcodegen));
 
         return $bxcodegen;
     }
@@ -76,6 +79,9 @@ class Factory
                 ],
                 'module' => [
                     'class' => Module::class,
+                ],
+                'orm' => [
+                    'class' => Orm::class,
                 ],
             ],
         ];

@@ -39,10 +39,14 @@ class File implements FileInterface
             throw new InvalidArgumentException(
                 "absolutePath parameter can't be empty, got: {$unified}"
             );
+        } elseif (!PathHelper::isAbsolute($unified)) {
+            throw new InvalidArgumentException(
+                "absolutePath parameter must contains absolute path to file, got: {$unified}"
+            );
         }
 
         $info = pathinfo($unified);
-        $info['dirname'] = PathHelper::getRealPath($info['dirname']);
+        $info['dirname'] = $info['dirname'];
 
         $this->absolutePath = PathHelper::combine([$info['dirname'], $info['basename']]);
         $this->info = $info;
