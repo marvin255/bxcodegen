@@ -3,6 +3,8 @@
 namespace marvin255\bxcodegen\tests;
 
 use PHPUnit\Framework\TestCase;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * Базовый класс для всех тестов.
@@ -17,13 +19,13 @@ class BaseCase extends TestCase
     protected function removeDir($folderPath)
     {
         if (is_dir($folderPath)) {
-            $it = new \RecursiveDirectoryIterator(
+            $it = new RecursiveDirectoryIterator(
                 $folderPath,
-                \RecursiveDirectoryIterator::SKIP_DOTS
+                RecursiveDirectoryIterator::SKIP_DOTS
             );
-            $files = new \RecursiveIteratorIterator(
+            $files = new RecursiveIteratorIterator(
                 $it,
-                \RecursiveIteratorIterator::CHILD_FIRST
+                RecursiveIteratorIterator::CHILD_FIRST
             );
             foreach ($files as $file) {
                 if ($file->isDir()) {
